@@ -6,7 +6,7 @@ const appLibs = {
 	testLib:	require('./testSupport/testLib')
 };
 
-const fbkt = Fbkt.buildServer(config, appLibs);
+const fbkt = Fbkt.runServer(config, appLibs);
 
 fbkt.clog('FBKT CONFIG', fbkt, true);
 fbkt.runServer(command);
