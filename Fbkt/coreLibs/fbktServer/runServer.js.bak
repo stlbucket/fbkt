@@ -20,7 +20,6 @@ var startServer = require('./startServer');
 var stopServer = require('./stopServer');
 
 var reportFbktConfig = require('./reportFbktConfig');
-var reportAppRoutes = require('./reportAppRoutes');
 
 var createApp = function() {
 	_app = express();
@@ -130,7 +129,6 @@ var commandMap = {
 			, createFbkt
 			, executeStartupPackages
 			, reportFbktConfig
-			, reportAppRoutes
 			, startServer
 		]
 	},

@@ -27,7 +27,7 @@ describe(__filename, function () {
 			});
 	});
 	
-	it('recursive read directory contents but ignore .js files', function (done) {
+	it.skip('recursive read directory contents but ignore .js files', function (done) {
 		fbkt().file.recursiveReaddirWithPromise({
 				params:	{
 					directoryPath:	'Fbkt/coreLibs/utility/fbktShortcuts/file',

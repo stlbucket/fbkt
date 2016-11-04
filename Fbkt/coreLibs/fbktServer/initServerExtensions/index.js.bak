@@ -8,7 +8,7 @@ module.exports = ()=>{
 
 	const extensions = fbkt().getComponentFromAllLibs('serverExtensions');
 
-	return Promise.mapSeries(extensions, (ext)=>{
+	return Promise.each(extensions, (ext)=>{
 		return ext();
 	});
 	

@@ -3,23 +3,22 @@ let R = require('ramda');
 let __fbkt = null;
 
 const Fbkt = class {
-	constructor(config){
+	constructor(config, appLibs){
 		this._config = config;
 		this._coreLibs = require('./coreLibs');
+		this._appLibs = appLibs || [];
 		
-		this.initShortcuts();
+		this._allLibs = R.merge(this._coreLibs, this._appLibs);
+		
+			this.initShortcuts();
 	}
 	
 	get config(){
 		return this._config;
 	}
 	
-	get coreLibs(){
-		return this._coreLibs;
-	}
-	
 	get libs(){
-		return R.merge({}, this._coreLibs);
+		return this._allLibs;
 	}
 	
 	reportConfig(){
@@ -66,18 +65,18 @@ const Fbkt = class {
 
 
 
-const buildFbkt = (config)=>{
+const buildFbkt = (config, appLibs)=>{
 	if (R.is(Object, config))
-		return __fbkt = new Fbkt(config);
+		return __fbkt = new Fbkt(config, appLibs);
 	
 	throw new Error('MUST SUPPLY CONFIG TO CREATE FBKT SERVER'.bgRed);
 };
 
-module.exports = (config)=>{
+module.exports = (config, appLibs)=>{
 	if (R.is(Object, __fbkt)){
 		return __fbkt;
 	} else {
-		return buildFbkt(config);
+		return buildFbkt(config, appLibs);
 	}
 };
 

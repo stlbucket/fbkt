@@ -1,6 +1,6 @@
 {
   "name": "fbkt",
-  "version": "1.0.4",
+  "version": "1.0.7",
   "description": "",
   "presets": [
     "es2015"
@@ -60,3 +60,4 @@
   "author": "",
   "license": "ISC"
 }
+                
