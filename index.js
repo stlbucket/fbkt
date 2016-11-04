@@ -5,7 +5,7 @@ const baseCommandMap = require('./Fbkt/coreLibs/fbktServer/resolveCommandMap/bas
 
 module.exports = {
 	baseCommandMap:	baseCommandMap,
-	runServer: (config, appLibs)=> {
+	buildServer: (config, appLibs)=> {
 		return Fbkt(config, appLibs);
 	}
 };
