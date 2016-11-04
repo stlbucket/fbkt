@@ -69,7 +69,7 @@ const buildFbkt = (config, appLibs)=>{
 	if (R.is(Object, config))
 		return __fbkt = new Fbkt(config, appLibs);
 	
-	throw new Error('MUST SUPPLY CONFIG TO CREATE FBKT SERVER'.bgRed);
+	throw new Error('MUST SUPPLY CONFIG TO CREATE FBKT SERVER'.bgGreen);
 };
 
 module.exports = (config, appLibs)=>{

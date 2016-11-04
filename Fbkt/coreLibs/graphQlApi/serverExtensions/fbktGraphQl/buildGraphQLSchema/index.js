@@ -16,7 +16,7 @@ module.exports = (callInfo)=> {
 				fbkt().clog('ALL COMPOSITES', composites);
 				
 				// const 
-				process.exit();
+				// process.exit();
 			}
 		}
 	}, callInfo);

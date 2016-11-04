@@ -21,6 +21,7 @@ var stopServer = require('./stopServer');
 
 var reportFbktConfig = require('./reportFbktConfig');
 var reportAppRoutes = require('./reportAppRoutes');
+var reportUnknownCommand = require('./reportUnknownCommand');
 
 var createApp = function() {
 	_app = express();
@@ -38,59 +39,18 @@ var createFbkt = function(args){
 			executionMode:	'PROD'
 		};
 	fbkt().executionMode = args.executionMode;
-	return sequence([
-		initServerExtensions
-	]);
+	return initServerExtensions();
 };
 
-
-var reportUnknownCommand = function(command){
-	console.log('');
-	console.log("------")
-	console.log('');
-	console.log("THERE ARE KNOWN COMMANDS AND THERE ARE UNKNOWN COMMANDS...");
-	console.log("THAT IS TO SAY THERE ARE COMMANDS WE KNOW WE KNOW...");
-	console.log("AND COMMANDS WE KNOW WE DON'T KNOW...");
-	console.log("BUT THERE ARE ALSO COMMANDS WE DON'T KNOW WE DON'T KNOW...");
-	console.log('');
-	console.log("------")
-	console.log('');
-	console.log("YOUR'S IS AN UNKNOWN UNKNOWN COMMAND: ", "'"+command+"'");
-	console.log('');
-};
-
-var reportCommandMap = function(){
-	var theOnlyCommandToReport = process.argv[4] || 'ALL OF THEM';
-
-	console.log('**********COMMAND MAP*********')
-	console.log('');
-	_.forOwn(commandMap, function(commandInfo, commandName){
-
-		if (theOnlyCommandToReport === 'ALL OF THEM' || theOnlyCommandToReport === commandName) {
-			console.log('~~~~~~~~~~ ' + commandName);
-		}
-
-		if (theOnlyCommandToReport === commandName){
-
-			_.forEach(commandInfo.description, function(line){
-				console.log(line);
-			});
-			console.log('');
-		}
-
-	});
-	console.log('********END COMMAND MAP*******')
-
-	if (theOnlyCommandToReport === 'ALL OF THEM') {
-		console.log('');
-		console.log('FOR MORE INFO ON A COMMAND: node fbktServer help [commandName]');
-		console.log('');
-	}
-};
-
-module.exports = function(command){
+var resolveCommand = (command)=>{
 	const anyCommand = R.is(String, command) ? command : 'runServer';
 	var knownCommand = _.indexOf(_.keys(commandMap), anyCommand) > -1 ? anyCommand : 'UNKNOWN';
+	
+	return knownCommand;
+}
+
+module.exports = function(command){
+	var knownCommand = resolveCommand(command);
 	if (knownCommand !== 'UNKNOWN'){
 		if (R.is(Array, commandMap[knownCommand].commandList)){
 			return sequence(commandMap[knownCommand].commandList, commandMap[knownCommand].args)
@@ -171,4 +131,34 @@ var commandMap = {
 			executionMode: 'TEST'
 		}
 	},
+};
+
+
+var reportCommandMap = function(){
+	var theOnlyCommandToReport = process.argv[4] || 'ALL OF THEM';
+
+	console.log('**********COMMAND MAP*********')
+	console.log('');
+	_.forOwn(commandMap, function(commandInfo, commandName){
+
+		if (theOnlyCommandToReport === 'ALL OF THEM' || theOnlyCommandToReport === commandName) {
+			console.log('~~~~~~~~~~ ' + commandName);
+		}
+
+		if (theOnlyCommandToReport === commandName){
+
+			_.forEach(commandInfo.description, function(line){
+				console.log(line);
+			});
+			console.log('');
+		}
+
+	});
+	console.log('********END COMMAND MAP*******')
+
+	if (theOnlyCommandToReport === 'ALL OF THEM') {
+		console.log('');
+		console.log('FOR MORE INFO ON A COMMAND: node fbktServer help [commandName]');
+		console.log('');
+	}
 };

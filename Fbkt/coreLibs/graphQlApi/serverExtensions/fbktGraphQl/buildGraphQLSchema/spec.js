@@ -1,6 +1,6 @@
 "use strict";
 const uuid = require('node-uuid');
-const fbkt = require('fbkt');
+const fbkt = require('../../../../../../Fbkt');
 const should = require('should');
 
 const pipeDef = require('./index');
