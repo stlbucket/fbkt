@@ -1,14 +1,14 @@
 "use strict";
 const Promise = require('bluebird');
 const R = require('ramda');
-const fbkt = require('../../../../../../Fbkt');
+const fbkt = require('../../../../Fbkt');
 
 module.exports = ()=>{
 	console.log('==========INIT SERVER EXTENSIONS==========');
 
 	const extensions = fbkt().getComponentFromAllLibs('serverExtensions');
 
-	return Promise.each(extensions, (ext)=>{
+	return Promise.mapSeries(extensions, (ext)=>{
 		return ext();
 	});
 	

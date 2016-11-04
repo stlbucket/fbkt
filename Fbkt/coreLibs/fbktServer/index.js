@@ -5,5 +5,4 @@ module.exports = {
 		return __dirname;
 	},
 	runServer:	require('./runServer'),
-	serverCommandMap:	require('./resolveCommandMap/baseCommandMap')
 };

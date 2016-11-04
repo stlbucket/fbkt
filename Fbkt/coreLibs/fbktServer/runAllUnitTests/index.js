@@ -1,5 +1,5 @@
 "use strict";
-var fbkt = require('../../../../../../Fbkt');
+var fbkt = require('../../../../Fbkt');
 const R = require('ramda');
 
 module.exports = function(){

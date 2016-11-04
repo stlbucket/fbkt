@@ -10,7 +10,7 @@ const Fbkt = class {
 		
 		this._allLibs = R.merge(this._coreLibs, this._appLibs);
 		
-		this.initShortcuts();
+			this.initShortcuts();
 	}
 	
 	get config(){
