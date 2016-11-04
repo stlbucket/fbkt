@@ -2,9 +2,13 @@ let Fbkt = require('./index');
 let config = require('./config/dev');
 
 var command = process.argv[3] || 'runServer';
-const fbkt = Fbkt(config);
+const appLibs = {
+	testLib:	require('./testSupport/testLib')
+};
 
-// fbkt.clog('FBKT CONFIG', fbkt, true);
+const fbkt = Fbkt(config, appLibs);
+
+fbkt.clog('FBKT CONFIG', fbkt, true);
 fbkt.runServer(command);
 
 
