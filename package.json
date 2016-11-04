@@ -7,8 +7,10 @@
   ],
   "main": "index.js",
   "scripts": {
+    "dev": "node devServer dev",
     "test": "node devServer dev runAllUnitTests",
-    "dev": "node devServer dev"
+    "testCommand": "node devServer dev testCommand",
+    "startAndStopServer": "node devServer dev startAndStopServer"
   },
   "dependencies": {
     "axios": "0.14.0",

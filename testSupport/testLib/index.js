@@ -3,4 +3,5 @@ module.exports = {
 	libRelativePath:	function(){
 		return __dirname;
 	},
+	serverCommandMap:	require('./serverCommandMap')
 };
