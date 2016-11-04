@@ -1,5 +1,5 @@
 "use strict";
-const fbkt = require('../../../../Fbkt');
+const fbkt = require('../../../../../../Fbkt');
 
 module.exports = ()=>{
 	const port = process.env.PORT || fbkt().getConfigValue('port') || 20831;

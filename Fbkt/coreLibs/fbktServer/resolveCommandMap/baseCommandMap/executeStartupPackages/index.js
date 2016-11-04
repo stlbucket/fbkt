@@ -1,5 +1,5 @@
 "use strict";
-const fbkt = require('../../../../Fbkt');
+const fbkt = require('../../../../../../Fbkt');
 const Promise = require('bluebird');
 
 module.exports = ()=>{
