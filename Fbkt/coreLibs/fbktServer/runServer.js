@@ -11,33 +11,18 @@ module.exports = function(command) {
 	
 	fbkt().clog('COMMAND MAP', commandMap);
 	fbkt().clog('COMMAND', command);
-	const knownCommand = commandMap[command];
-	if (R.isNil(knownCommand)){
-		console.log(`
-		There are known commands and there are unkown commands.
-		...
-		That is to say, there are commands we know we know,
-		and there are commands we know we don't know.
-		But there are also commands we don't know we don't know.
-		....
-		For sure, though, we don't know about this command.
-		
-		
-		=============================================
-		${command}
-		=============================================
-		`);
-	} else if (R.is(Array, knownCommand.commandList)){
-		return sequence(knownCommand.commandList, knownCommand.args)
+
+	if (R.is(Array, commandMap[command].commandList)){
+		return sequence(commandMap[command].commandList, commandMap[command].args)
 		
 		// return Promise.each(
-		// 	knownCommand.commandList,
+		// 	commandMap[command].commandList,
 		// 	command=>{
-		// 		return command(knownCommand.args);
+		// 		return command(commandMap[command].args);
 		// 	}
 		// )
-	} else if (R.is(Function, knownCommand)){
-		return knownCommand();
+	} else if (R.is(Function, commandMap[command])){
+		return commandMap[command]();
 	} else {
 		console.log('THIS IS VERY WRONG:', commandMap[knownCommand]);
 	}
