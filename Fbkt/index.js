@@ -26,7 +26,7 @@ const Fbkt = class {
 	}
 
 	getConfigValue(key, defaultValue){
-		return this.config[key] || defaultValue;
+		return this._config[key] || defaultValue;
 	}
 	
 	runServer(command){
