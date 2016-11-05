@@ -16,7 +16,7 @@ module.exports = (callInfo)=> {
 		pipelineSteps: {  // any number of functions
 			"configureEndpoint": function (callInfo) {
 				if (callInfo.params.disabled !== true) {
-					var auth = callInfo.params.auth || fbkt().appConfiguration.defaultEntityControllerAuth;
+					var auth = callInfo.params.auth || fbkt().getConfigValue('defaultEntityControllerAuth', 'none');
 
 					if (auth === 'token') {
 						if (fbkt().controllerAuth && fbkt().controllerAuth.tokenAuth) {
