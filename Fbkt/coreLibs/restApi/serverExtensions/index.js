@@ -1,3 +1,3 @@
 module.exports = {
-	initRestApi:	require('./initRestApi')
+	restApi:	require('./restApi')
 };

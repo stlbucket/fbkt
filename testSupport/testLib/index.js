@@ -4,5 +4,8 @@ module.exports = {
 		return __dirname;
 	},
 	serverCommandMap:	require('./serverCommandMap'),
-	serverExtensions:	require('./serverExtensions')
+	serverExtensions:	require('./serverExtensions'),
+	customRestControllers:	[
+		require('./controller/customRest/pong'),
+	],
 };
