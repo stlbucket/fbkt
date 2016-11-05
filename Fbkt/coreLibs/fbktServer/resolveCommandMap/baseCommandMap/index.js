@@ -53,9 +53,9 @@ module.exports = {
 	},
 	help: {
 		description:	[
-			'node fbktServer [app].[env] help',
+			'node fbktServer [env] help',
 			'OR',
-			'node fbktServer [app].[env] help commandName',
+			'node fbktServer [env] help commandName',
 			'',
 			'-- infinite recursion detected....'
 		],
@@ -65,7 +65,7 @@ module.exports = {
 	},
 	runServer: {
 		description:	[
-			'node fbktServer [app].[env]',
+			'node fbktServer [env]',
 			'',
 			'-- obvious, no?',
 		],
@@ -80,7 +80,7 @@ module.exports = {
 	},
 	runCurrentUnitTest: {
 		description:	[
-			'node fbktServer [app].[env] runCurrentUnitTest',
+			'node fbktServer [env] runCurrentUnitTest',
 			'',
 			'-- run current unit test',
 		],
@@ -97,9 +97,9 @@ module.exports = {
 	},
 	runAllUnitTests: {
 		description:	[
-			'node fbktServer [app].[env] runAllUnitTests',
+			'node fbktServer [env] runAllUnitTests',
 			'OR',
-			'node fbktServer [app].[env] runAllUnitTests [libName]',
+			'node fbktServer [env] runAllUnitTests [libName]',
 			'',
 			'-- run all unit tests',
 			'-- tests are limited to lib if specified'

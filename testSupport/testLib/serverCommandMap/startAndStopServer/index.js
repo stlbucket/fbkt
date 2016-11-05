@@ -3,7 +3,7 @@ const tasks = fbkt(null, null, true).tasks;
 
 module.exports = {
 	description: [
-		'node fbktServer [app].[env] startAndStopServer',
+		'node fbktServer [env] startAndStopServer',
 	],
 	commandList: [
 		tasks.createApp,
