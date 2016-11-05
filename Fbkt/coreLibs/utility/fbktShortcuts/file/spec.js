@@ -13,7 +13,7 @@ describe(__filename, function () {
 	it('recursive read directory contents', function (done) {
 		fbkt().file.recursiveReaddirWithPromise({
 			params:	{
-				directoryPath:	'scripts/core/utility/fbktShortcuts/unitTest'
+				directoryPath:	__dirname
 			}
 		})
 			.then(function(directoryContents){
@@ -27,10 +27,10 @@ describe(__filename, function () {
 			});
 	});
 	
-	it.skip('recursive read directory contents but ignore .js files', function (done) {
+	it('recursive read directory contents but ignore .js files', function (done) {
 		fbkt().file.recursiveReaddirWithPromise({
 				params:	{
-					directoryPath:	'Fbkt/coreLibs/utility/fbktShortcuts/file',
+					directoryPath:	__dirname,
 					ignoreFunc:		function(file, stats){
 						var fileSplit = file.split('.');
 						return fileSplit[fileSplit.length-1] === 'js';
