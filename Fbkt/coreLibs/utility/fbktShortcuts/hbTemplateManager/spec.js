@@ -11,7 +11,7 @@ describe(__filename, function() {
 		const testId = uuid.v4();
 		const user ={ login:	"who@cares.com" };
 		const	params = {
-			templateFilePath:		'scripts/core/utility/fbktShortcuts/hbTemplateManager/specSupport/template.hbs',
+			templateFilePath:		`${__dirname}/specSupport/template.hbs`,
 			templateData:	{
 				testData:			testId,
 			},
