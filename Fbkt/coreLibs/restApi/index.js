@@ -11,6 +11,6 @@ module.exports = {
 		require('./controller/customRest/ping'),
 	],
 	serverExtensions:	[
-		require('./serverExtensions/initRestApi'),
+		require('./serverExtensions'),
 	],
 };

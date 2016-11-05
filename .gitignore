@@ -12,7 +12,6 @@ pids
 logs
 results
 
-smfDotNet
 ui_components
 sourceData
 node_modules
@@ -27,9 +26,5 @@ ignoreAllThis
 .elasticbeanstalk/
 .idea/
 npm-debug.*
-
-smfDefaultConfig.js
-
-
 
 scripts/appClient/src/WL/views/dashboard/wlDashboardView.map.js
