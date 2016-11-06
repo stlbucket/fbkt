@@ -21,7 +21,7 @@ module.exports = (callInfo)=> {
 					if (auth === 'token') {
 						if (fbkt().controllerAuth && fbkt().controllerAuth.tokenAuth) {
 							return fbkt().app[callInfo.params.action](
-								callInfo.params.url,
+								`/api${callInfo.params.url}`,
 								fbkt().controllerAuth.tokenAuth,
 								createAgent(callInfo)
 							);
@@ -30,7 +30,7 @@ module.exports = (callInfo)=> {
 						}
 					} else {
 						return fbkt().app[callInfo.params.action](
-							callInfo.params.url,
+							`/api${callInfo.params.url}`,
 							createAgent(callInfo)
 						);
 					}
