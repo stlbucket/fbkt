@@ -3,7 +3,7 @@ const Promise = require('bluebird');
 
 
 module.exports = {
-	url:      '/Pong',
+	url:      '/pong',
 	restEndpoints: {
 		getAll: {
 			disabled: false,

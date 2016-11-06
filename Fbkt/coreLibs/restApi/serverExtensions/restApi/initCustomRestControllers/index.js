@@ -39,7 +39,7 @@ module.exports = (callInfo)=>{
 						if (controller.restEndpoints.getOne){
 							configureGetOneEndpoint({
 								params:		{
-									url: 			controller.url,
+									url: 			`/api${controller.url}`,
 									auth:			controller.restEndpoints.getOne.auth,
 									handler:	controller.restEndpoints.getOne.handler
 								}
@@ -49,7 +49,7 @@ module.exports = (callInfo)=>{
 						if (controller.restEndpoints.post){
 							configurePostEndpoint({
 								params:		{
-									url: 			controller.url,
+									url: 			`/api${controller.url}`,
 									auth:			controller.restEndpoints.post.auth,
 									handler:	controller.restEndpoints.post.handler
 								}
@@ -59,7 +59,7 @@ module.exports = (callInfo)=>{
 						if (controller.restEndpoints.put){
 							configurePutEndpoint({
 								params:		{
-									url: 			controller.url,
+									url: 			`/api${controller.url}`,
 									auth:			controller.restEndpoints.put.auth,
 									handler:	controller.restEndpoints.put.handler
 								}
@@ -69,7 +69,7 @@ module.exports = (callInfo)=>{
 						if (controller.restEndpoints.delete){
 							configureDeleteEndpoint({
 								params:		{
-									url: 			controller.url,
+									url: 			`/api${controller.url}`,
 									auth:			controller.restEndpoints.delete.auth,
 									handler:	controller.restEndpoints.delete.handler
 								}
