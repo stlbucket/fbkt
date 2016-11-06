@@ -9,7 +9,7 @@ module.exports = function(callInfo){
 	// console.log('READING DIRECTORY', callInfo);
 
 	var d = when.defer();
-	
+
 	fs.exists(callInfo.params.directoryPath, function(exists){
 		if (exists){
 			recursiveReaddir(callInfo.params.directoryPath,
@@ -29,6 +29,6 @@ module.exports = function(callInfo){
 			d.resolve([]);
 		}
 	});
-	
+
 	return d.promise;
 };

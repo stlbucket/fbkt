@@ -2,7 +2,7 @@ const fbkt = require('../../../../../../Fbkt');
 const R = require('ramda');
 
 module.exports = {
-	url:      '/Fbkt',
+	url:      '/fbkt',
 	restEndpoints: {
 		getAll: {
 			disabled: false,

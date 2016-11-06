@@ -22,8 +22,7 @@ module.exports = (callInfo)=>{
 							}
 						}));
 					}
-
-				}, R.keys(libs));
+			}, R.keys(libs));
 
 				return Promise.reduce(libUnitTestSets, function(all, utSet){
 					return R.concat(all, utSet);

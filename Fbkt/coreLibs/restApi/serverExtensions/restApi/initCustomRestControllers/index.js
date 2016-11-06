@@ -1,3 +1,4 @@
+
 "use strict";
 const R = require('ramda');
 const Promise = require('bluebird');
@@ -21,14 +22,14 @@ module.exports = (callInfo)=>{
 			"initCustomRestControllers":	(callInfo)=>{
 				const customRestControllers = fbkt().getComponentFromAllLibs('customRestControllers');
 				// fbkt().clog("customRestControllers", customRestControllers); process.exit();
-				
+
 				return Promise.mapSeries(
 					customRestControllers,
 					(controller)=> {
 						if (controller.restEndpoints.getAll) {
 							configureGetAllEndpoint({
 								params: {
-									url: 			controller.url,
+									url: 			`/api${controller.url}`,
 									auth:     controller.restEndpoints.getAll.auth,
 									handler:  controller.restEndpoints.getAll.handler,
 								}

@@ -10,7 +10,7 @@ module.exports = (callInfo)=>{
 			libRelativePath: 'string'
 		},
 		pipelineParams: {
-			stepOneCallTime: 'stepOne.callTime'
+			final: 'findLibUnitTests'
 		},
 		pipelineSteps:  {  // any number of functions
 			findLibUnitTests: function (callInfo) {
@@ -26,7 +26,7 @@ module.exports = (callInfo)=>{
 				})
 					.then(function(allFiles){
 						return allFiles.filter((file)=>{
-							var split = file.split('\\');
+							var split = file.split('/');
 							var filenameSplit = split[split.length-1].split('.');
 
 							return R.contains('spec', filenameSplit);
