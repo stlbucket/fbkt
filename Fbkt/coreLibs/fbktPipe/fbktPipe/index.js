@@ -67,7 +67,7 @@ const FbktPipe = class {
 				// server spin-up pipes and those that use external resources
 				// may have the exitProcessOnError flag set to true if needed
 				// currently this is used sparingly, but for production, this feature will matter
-				fbkt().clog('FBKT PIPE ERROR - RAW', error);
+				fbkt().clog(`FBKT PIPE ERROR - RAW - ${this.workspace.name}`, error);
 				if (this.workspace.exitProcessOnError === true){
 					fbkt().clog('FBKT PIPE ERROR - WORKSPACE', this.workspace);
 					process.exit();
