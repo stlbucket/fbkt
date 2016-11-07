@@ -45,8 +45,8 @@ npm run dev
 ```
 
 ##base fbkt package
-- fbktPipe
-  - custom pipeline pattern for developing server-side code (<a href="https://github.com/stlbucket/fbkt/blob/master/Fbkt/coreLibs/fbktPipe/fbktPipe/index.js">fbktPipe</a>)
+- <a href="https://github.com/stlbucket/fbkt/blob/master/Fbkt/coreLibs/fbktPipe/fbktPipe/index.js">fbktPipe</a>
+  - custom pipeline pattern for developing server-side code
     - error handling
     - workspace persistence
     - simple workflow
