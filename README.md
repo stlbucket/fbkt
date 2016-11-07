@@ -22,7 +22,6 @@ npm run dev
  - simple workflow
 - integrated unit-testing (mocha)
 - restApi(express - i would like to break this out into a separate lib so it's easier to change out express at some point)
-- customizable data import/export for flat files
 
 ##extension libraries
 - fbkt-pg
