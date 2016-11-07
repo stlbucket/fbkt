@@ -1,6 +1,5 @@
 # fbkt
-function bucket is an opinionated toolkit for building a postgres-backed web server that 
-helps to quickly pull together data in a JSON format to support web app development.
+function bucket is an opinionated toolkit for building a postgres-backed(optionally, but really it's the only option right now) web server that helps to quickly pull together data in a JSON format to support web app development.
 
 usage:
 ```
