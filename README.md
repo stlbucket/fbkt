@@ -34,7 +34,7 @@ npm run dev
   - this area of the stack should be improved...  <a href="https://github.com/paypal/seifnode">seif?</a>, oauth, etc.
 
 ##extension libraries
-- fbkt-pg
+- <a href="https://github.com/stlbucket/fbkt-pg">fbkt-pg</a>
   - dbManager
     - build, wipe, rebuild db for quick dev changes
     - patchDb on deployment
@@ -44,7 +44,7 @@ npm run dev
   - dbAccess
     - wraps knex.js for traditional db access.  (this is an old lib that will be re-written, but it works for now)
     - data composition by configuration(json aggregation in the db)
-- fbkt-pg-graphql (in progress)
+- <a href="https://github.com/stlbucket/fbkt-pg-graphql">fbkt-pg-graphql</a> (in progress)
   - dynamically compose a graph-ql schema from multiple fbkt-based libs, extending dbAccess.composite structure
 - fbkt-login (soon - needs to be refactored from old code)
 - fbkt-data-import (future)
