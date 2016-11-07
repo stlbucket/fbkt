@@ -5,7 +5,7 @@ usage:  (improved configuration setup is on the way...)
 ```
 npm install --save fbkt
 ```
-create a file named #devServer.js#
+create a file named *devServer.js*
 
 ```
 let Fbkt = require('fbkt');
