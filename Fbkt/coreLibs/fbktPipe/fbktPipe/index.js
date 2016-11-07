@@ -26,7 +26,7 @@ const FbktPipe = class {
 		this.fbktPipe = pipe;
 		this.pipelineSteps = R.clone(this.fbktPipe.pipelineSteps); // necessary?  todo: investigate this
 	}
-	
+
 	execute(callInfo) {
 		// if there is a dbTree present, pipe errors will be recorded
 		const dbTree = fbkt().dbTree || {	fbkt_core_db:	'NO DATA TREE' };
@@ -67,7 +67,12 @@ const FbktPipe = class {
 				// server spin-up pipes and those that use external resources
 				// may have the exitProcessOnError flag set to true if needed
 				// currently this is used sparingly, but for production, this feature will matter
-				fbkt().clog('FBKT PIPE ERROR - RAW', error);      //process.exit();
+				fbkt().clog('FBKT PIPE ERROR - RAW', error);
+				if (this.workspace.exitProcessOnError === true){
+					fbkt().clog('FBKT PIPE ERROR - WORKSPACE', this.workspace);
+					process.exit();
+				}
+
 				if (R.is(Object, fbkt().dbTree) && R.is(Object, fbkt().dbTree.fbkt_core_db)){
 					return fbkt().dbTree.fbkt_core_db.table.fbkt_pipe.save({
 						params:	{
@@ -140,13 +145,13 @@ const FbktPipe = class {
 		// since params may be functions, we need to clean the workspace of them
 		return JSON.parse(JSON.stringify(this.workspace));
 	}
-	
+
 	preProcessStep(fnKey){
 		this.workspace.stepMetrics[fnKey] = this.workspace.stepMetrics[fnKey] || {};
 
 		this.workspace.stepMetrics[fnKey].startTimestamp = moment().format(this.momentFormatString);
 	}
-	
+
 	recordStepResult(fnKey, stepResult, stepFn){
 		this.workspace.stepMetrics[fnKey].endTimestamp = moment().format(this.momentFormatString);
 
@@ -161,17 +166,17 @@ const FbktPipe = class {
 		} else {
 			this.workspace.stepResultsDeep[fnKey] = stepResult;
 		}
-		
+
 		// fbkt().clog('CURRENT WORKSPACE', this.workspace);
 	}
-	
+
 	capturePipelineParamValues(){
 		// pipelineParams are captured in pipelineParamValues after each step
 		this.workspace.pipelineParamValues =	R.mapObjIndexed((path, key, obj)=>{
 				return R.path(path.split('.'), this.workspace.stepResults)
 			}, this.workspace.pipelineParams);
 	}
-	
+
 	executeCallInfoFunctionStep(stepFn){
 		// todo: look into R.clone for the params so that within each function, params are immutable
 		return stepFn({
@@ -179,7 +184,7 @@ const FbktPipe = class {
 			params:	R.merge(R.clone(this.workspace.params), R.clone(this.workspace.pipelineParamValues))
 		});
 	};
-	
+
 	executeFbktPipeStep(stepFn){
 		return stepFn.execute({
 			user:		this.workspace.user,
@@ -187,7 +192,7 @@ const FbktPipe = class {
 			parent: this
 		});
 	}
-	
+
 	executeStep(fnKey, stepFn){
 		// todo: potentially refactor this using R.curry so there is no switch here
 		switch(typeof stepFn){
@@ -214,7 +219,7 @@ const FbktPipe = class {
 // much of the rest of the server has been converted to fbktPipe - all currently executing code is in this state
 
 // some planned additional work as of 9/28/16
-// 
+//
 // todo: implement expected params enforcement
 // todo: add config to record pipelines selectively
 // todo: add config to report errors to a service
@@ -224,7 +229,7 @@ const FbktPipe = class {
 // todo: add validateInputs
 // todo: implement seif protocol - https://github.com/paypal/seif-protocol
 // todo: find out there is a framework that does all this and more, throw it away and get a real job
-// 
+//
 // these features together are a sort of micro-service support
 // -----------------------
 // a config with only fbktPipe, restApi and one other fbktLib
