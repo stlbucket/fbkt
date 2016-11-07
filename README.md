@@ -15,12 +15,23 @@ npm run dev
 ```
 
 ##base fbkt package
-- custom pipeline pattern for developing server-side code (<a href="https://github.com/stlbucket/fbkt/blob/master/Fbkt/coreLibs/fbktPipe/fbktPipe/index.js">fbktPipe</a>)
-  - error handling
-  - workspace persistence
-  - simple workflow
-- integrated unit-testing (mocha)
-- restApi(express - i would like to break this out into a separate lib so it's easier to change out express at some point)
+- fbktPipe
+  - custom pipeline pattern for developing server-side code (<a href="https://github.com/stlbucket/fbkt/blob/master/Fbkt/coreLibs/fbktPipe/fbktPipe/index.js">fbktPipe</a>)
+    - error handling
+    - workspace persistence
+    - simple workflow
+- fbktServer
+- unitTest
+  - integrated unit-testing (mocha)
+- utility
+  - file i/o
+  - templating
+  - etc.
+- restApi
+  - express-based (this lib could be broken out to support other servers)
+- fbktPassport 
+  - token-based auth
+  - this area of the stack should be improved...  <a href="https://github.com/paypal/seifnode">seif?</a>, oauth, etc.
 
 ##extension libraries
 - fbkt-pg
