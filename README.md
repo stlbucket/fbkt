@@ -1,10 +1,40 @@
 # fbkt
 function bucket is an opinionated toolkit for building a postgres-backed(optionally, but really it's the only option right now) web server that helps to quickly pull together data in a JSON format to support web app development.
 
-usage:
+usage:  (improved configuration setup is on the way...)
 ```
 npm install --save fbkt
 ```
+create a file named #devServer.js#
+
+```
+let Fbkt = require('fbkt');
+let config = require('./config/dev');
+const fbktpg = require('./index');
+let appLibs = {
+	dbAccess:		fbktpg.dbAccess,
+	coreDb:			fbktpg.coreDb,
+	dbManager:	fbktpg.dbManager,
+	pgRestApi:	fbktpg.pgRestApi
+};
+
+
+var command = process.argv[3] || 'runServer';
+const fbkt = Fbkt(config, appLibs);
+
+fbkt.clog('FBKT CONFIG', fbkt.config, true);
+fbkt.runServer(command);
+```
+add to package.json
+```
+  "scripts": {
+    "dev": "node devServer dev",
+    "test": "node devServer dev runAllUnitTests",
+    "wipeDb": "node devServer dev wipeDb",
+    "buildDb": "node devServer dev buildDb
+  },
+```
+create config directory structure like this:  <a href="https://github.com/stlbucket/fbkt-pg/tree/master/config">fbkt-pg-config</a>   (includes db config that the base libs don't use)
 
 ```
 npm run test
