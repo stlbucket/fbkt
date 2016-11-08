@@ -23,7 +23,7 @@ const initControllers = (callInfo)=>{
 };
 
 module.exports = (callInfo)=>{
-	if (process.env.NODE_ENV !== 'BUILD_DB'){
+  if (process.env.NODE_ENV !== 'buildDb'){
 		fbkt().restApiSupport =  {
 			configureEndpoint: configureEndpoint,
 			captureAppRoutes:	captureAppRoutes

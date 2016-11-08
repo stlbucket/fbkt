@@ -1,17 +1,17 @@
 {
   "name": "fbkt",
-  "version": "1.0.30",
+  "version": "1.0.31",
   "description": "",
   "presets": [
     "es2015"
   ],
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_ENV=dev node devServer dev",
-    "test": "NODE_ENV=test node devServer dev runAllUnitTests",
-    "testCommand": "NODE_ENV=test node devServer dev testCommand",
-    "startAndStopServer": "NODE_ENV=test node devServer dev startAndStopServer",
-    "initPackage": "NODE_ENV=dev node devServer dev initPackage"
+      "dev": "NODE_ENV=dev node devServer dev",
+      "test": "NODE_ENV=test node devServer dev runAllUnitTests",
+      "testCommand": "NODE_ENV=test node devServer dev testCommand",
+      "startAndStopServer": "NODE_ENV=test node devServer dev startAndStopServer",
+      "initPackage": "NODE_ENV=dev node devServer dev initPackage"
   },
   "dependencies": {
     "axios": "0.14.0",
