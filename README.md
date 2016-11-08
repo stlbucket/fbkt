@@ -1,15 +1,8 @@
 # fbkt
 function bucket is an opinionated toolkit for building a postgres-backed(optionally, but really it's the only option right now) web server that helps to quickly pull together data in a JSON format to support web app development.
 
-usage:  (improved configuration setup is on the way...)
-```
-npm install --save fbkt
-```
-create a file named ***devServer.js***
-
-```
-coming soon - auto config
-```
+usage:  
+for a simple fbkt package, use the <a href="https://github.com/stlbucket/fbkt-extension-starter">fbkt-extension-starter</a>
 
 ##base fbkt package
 - <a href="https://github.com/stlbucket/fbkt/blob/master/Fbkt/coreLibs/fbktPipe/fbktPipe/index.js">fbktPipe</a>
