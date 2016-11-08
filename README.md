@@ -32,7 +32,7 @@ for a simple fbkt package, use the <a href="https://github.com/stlbucket/fbkt-ex
     - fbkt_core_db schema to track db script management and fbktPipe records
     - exposes /fbkt and /ping api endpoints for default restApi
   - dbAccess
-    - wraps knex.js for traditional db access.  (this is an old lib that will be re-written, but it works for now)
+    - wraps knex.js for traditional db access.  (this is an old component that will be re-written, but it works for now)
     - data composition by configuration(json aggregation in the db)
 - <a href="https://github.com/stlbucket/fbkt-pg-graphql">fbkt-pg-graphql</a> (in progress)
   - dynamically compose a graph-ql schema from multiple fbkt-based libs, extending dbAccess.composite structure
