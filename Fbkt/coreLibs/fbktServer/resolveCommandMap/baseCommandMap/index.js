@@ -1,6 +1,7 @@
 var createApp = require('./createApp');
 var currentUnitTest = require('./runCurrentUnitTest');
 var allUnitTests = require('./runAllUnitTests');
+var initPackage = require('./initPackage');
 var initServerExtensions = require('./initServerExtensions');
 var executeStartupPackages = require('./executeStartupPackages');
 var startServer = require('./startServer');
@@ -53,11 +54,6 @@ module.exports = {
 	},
 	help: {
 		description:	[
-			'node fbktServer [env] help',
-			'OR',
-			'node fbktServer [env] help commandName',
-			'',
-			'-- infinite recursion detected....'
 		],
 		commandList: [
 			reportCommandMap
@@ -65,8 +61,6 @@ module.exports = {
 	},
 	runServer: {
 		description:	[
-			'node fbktServer [env]',
-			'',
 			'-- obvious, no?',
 		],
 		commandList: [
@@ -78,41 +72,29 @@ module.exports = {
 			startServer
 		]
 	},
-	runCurrentUnitTest: {
-		description:	[
-			'node fbktServer [env] runCurrentUnitTest',
-			'',
-			'-- run current unit test',
-		],
-		commandList: [
-			createApp,
-			initServerExtensions,
-			executeStartupPackages,
-			currentUnitTest,
-			stopServer
-		],
-		args: {
-			executionMode: 'TEST'
-		}
-	},
-	runAllUnitTests: {
-		description:	[
-			'node fbktServer [env] runAllUnitTests',
-			'OR',
-			'node fbktServer [env] runAllUnitTests [libName]',
-			'',
-			'-- run all unit tests',
-			'-- tests are limited to lib if specified'
-		],
-		commandList: [
-			createApp,
-			initServerExtensions,
-			executeStartupPackages,
-			allUnitTests,
-			stopServer
-		],
-		args: {
-			executionMode: 'TEST'
-		}
-	},
+  runAllUnitTests: {
+    description:	[
+      '-- run all unit tests',
+      '-- tests are limited to lib if specified'
+    ],
+    commandList: [
+      createApp,
+      initServerExtensions,
+      executeStartupPackages,
+      allUnitTests,
+      stopServer
+    ],
+  },
+  initPackage: {
+    description:	[
+      '-- create a new package'
+    ],
+    commandList: [
+      createApp,
+      initServerExtensions,
+      executeStartupPackages,
+      initPackage,
+      stopServer
+    ],
+  },
 };

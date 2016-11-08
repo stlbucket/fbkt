@@ -1,6 +1,7 @@
-var fbkt = require('../../../../Fbkt');
-var fbktPassport = require('./fbktPassport');
-var passport = require('passport');
+const R = require('ramda');
+const fbkt = require('../../../../Fbkt');
+const fbktPassport = require('./fbktPassport');
+const passport = require('passport');
 
 const loginTokenHander = ()=>{
 	const allHandlers = fbkt().getComponentFromAllLibs('fbktLoginToken');
@@ -17,10 +18,10 @@ const loginUserHander = ()=>{
 
 module.exports = {
 	fbktPassport: function () {
-		var loginToken = loginTokenHander();
-		var loginUser = loginUserHander();
+		const loginToken = loginTokenHander();
+		const loginUser = loginUserHander();
 
-		if (fbkt().app !== 'NO_APP') {
+		if (R.is(Object, fbkt().app)) {
 			fbkt().app.use(passport.initialize());
 			// fbkt().clog("loginUser", loginUser);
 			// fbkt().clog("loginToken", loginToken);

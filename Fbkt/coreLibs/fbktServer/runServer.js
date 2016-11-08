@@ -28,6 +28,8 @@ module.exports = function(command) {
 		=============================================
 		`);
 	} else if (R.is(Array, knownCommand.commandList)){
+    console.log('KNOWN COMMAND', knownCommand);
+
 		return sequence(knownCommand.commandList, knownCommand.args)
 		
 		// return Promise.each(

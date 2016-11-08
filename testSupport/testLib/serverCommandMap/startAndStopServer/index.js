@@ -1,5 +1,5 @@
 const fbkt = require('../../../../index');
-const tasks = fbkt(null, null, true).tasks;
+const tasks = fbkt.baseCommandMap.tasks;
 
 module.exports = {
 	description: [
