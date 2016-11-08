@@ -6,10 +6,11 @@ const resolveCommandMap = require('./resolveCommandMap');
 
 var fbkt = require('../../../Fbkt');
 
-module.exports = function(command) {
+module.exports = function() {
 	const commandMap = resolveCommandMap();
-	
-	fbkt().clog('COMMAND MAP', commandMap);
+  const command = process.argv[3] || 'runServer';
+
+  fbkt().clog('COMMAND MAP', commandMap);
 	fbkt().clog('COMMAND', command);
 	const knownCommand = commandMap[command];
 	if (R.isNil(knownCommand)){

@@ -5,9 +5,8 @@ const baseCommandMap = require('./Fbkt/coreLibs/fbktServer/resolveCommandMap/bas
 
 module.exports = (config, appLibs, getBaseCommandMap)=>{
   const useConfig = config || { noConfig: true };
-  const command = process.argv[3] || 'runServer';
   __fbkt = Fbkt(useConfig, appLibs);
-  __fbkt.runServer(command);
+  return __fbkt;
 };
 
 module.exports.baseCommandMap = baseCommandMap;

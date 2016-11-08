@@ -5,5 +5,6 @@ const appLibs = {
 	testLib:	require('./testSupport/testLib')
 };
 
-Fbkt(config, appLibs);
+const fbkt = Fbkt(config, appLibs);
 
+fbkt.runServer();
