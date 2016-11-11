@@ -47,7 +47,7 @@ const FbktPipe = class {
 
 				// this.recordPipe = R.is(Object, fbkt().dbTree) && R.is(Object, fbkt().dbTree.fbkt_core_db);
 				if (this.recordPipe === true){
-					fbkt().clog('RECORDING PIPE', this.ws.name);
+					// fbkt().clog('RECORDING PIPE', this.ws.name);
 					return fbkt().dbTree.fbkt_core_db.table.fbkt_pipe.save({
 						params:	{
 							name:				this.ws.name,

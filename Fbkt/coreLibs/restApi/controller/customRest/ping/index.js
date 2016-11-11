@@ -1,6 +1,6 @@
 const fbkt = require('../../../../../../Fbkt');
 const Promise = require('bluebird');
-
+const pingEmitter = require('../../../eventEmitter/ping')();
 
 module.exports = {
 	url:      '/ping',
@@ -18,6 +18,7 @@ module.exports = {
 			disabled: false,
 			auth:     'none',
 			handler:  function (callInfo) {
+        pingEmitter.emit('PING_ONE', callInfo);
 				return `GET ONE PING - ${callInfo.params.id}`;
 			}
 		},
