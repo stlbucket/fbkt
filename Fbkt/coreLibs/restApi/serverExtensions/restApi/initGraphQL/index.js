@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 const R                 = require('ramda');
-const fbkt              = require('../../../../../../../Fbkt');
+const fbkt = require('../../../../../../Fbkt');
 const graphqlHTTP       = require('express-graphql');
 const gql               = require('graphql');
 const GraphQLSchema     = gql.GraphQLSchema;
 const GraphQLObjectType = gql.GraphQLObjectType;
 
-const initGraphQL = ()=> {
+module.exports = ()=> {
   return fbkt().FbktPipe({
     name: 'initFbktGraphQl',
     filename: __filename,
@@ -19,17 +19,47 @@ const initGraphQL = ()=> {
         if (libGraphQls.length > 0){
           const queryFields    = R.mergeAll(R.pluck('query', libGraphQls));
           const mutationFields = R.mergeAll(R.pluck('mutation', libGraphQls));
-          console.log('QUERIES', queryFields);
-          console.log('MUTATIONS', mutationFields);
+
+          const queries = R.merge(queryFields, {
+            ping: {
+              type: gql.GraphQLString,
+              args: {
+                input: {type: new gql.GraphQLNonNull(gql.GraphQLString)}
+              },
+              resolve(diary, params){
+                return params.input
+              }
+            }
+          });
+
+          const mutations = R.merge(mutationFields, {
+            ping: {
+              name: 'Ping Mutation',
+              type: gql.GraphQLString,
+              description: 'Ping Mutation',
+              args: {
+                input: {type: new gql.GraphQLNonNull(gql.GraphQLString)}
+              },
+              resolve: (value, params) => {
+                return {
+                  pingMutationOutput: params.input
+                }
+              }
+            }
+          });
+          fbkt().clog('GRAPH QL CONFIG', {
+            queries:  queries,
+            mutations: mutations
+          });
 
           const schema = new GraphQLSchema({
             query: new GraphQLObjectType({
               name: 'Query',
-              fields: () => (queryFields)
+              fields: () => (queries)
             }),
             mutation: new GraphQLObjectType({
               name: 'Mutation',
-              fields: () => (mutationFields)
+              fields: () => (mutations)
             })
           });
 
@@ -45,11 +75,11 @@ const initGraphQL = ()=> {
   }, {});
 };
 
-module.exports = ()=> {
-  if (process.env.NODE_ENV !== 'buildDb') {
-    return initGraphQL();
-  }
-};
+// module.exports = ()=> {
+//   if (process.env.NODE_ENV !== 'buildDb') {
+//     return initGraphQL();
+//   }
+// };
 
 
 

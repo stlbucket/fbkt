@@ -6,10 +6,8 @@ const Fbkt = class {
 	constructor(config, appLibs){
 		this._config = config;
 		this._coreLibs = require('./coreLibs');
-		this._appLibs = appLibs || [];
-		
-		this._allLibs = R.merge(this._coreLibs, this._appLibs);
-		
+		this._appLibs = appLibs || {};
+
 		this.initShortcuts();
 	}
 	
@@ -18,10 +16,9 @@ const Fbkt = class {
 	}
 	
 	get libs(){
-		return this._allLibs;
+		return R.merge(this._coreLibs, this._appLibs);
 	}
-	
-	
+
 	reportConfig(){
 		this.clog('FBKT CONFIG', this.config, true);
 	}
@@ -75,9 +72,11 @@ const buildFbkt = (config, appLibs)=>{
 
 module.exports = (config, appLibs)=>{
 	if (R.is(Object, __fbkt)){
-		return __fbkt;
+    return __fbkt;
 	} else {
-		return buildFbkt(config, appLibs);
+		const newFbkt = buildFbkt(config, appLibs);
+    console.trace('NEW FBKT', newFbkt);
+    return newFbkt;
 	}
 };
 

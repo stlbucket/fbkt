@@ -8,4 +8,5 @@ module.exports = {
 	customRestControllers:	[
 		require('./controller/customRest/pong'),
 	],
+  graphQl:  require('./graphQl')
 };
