@@ -63,7 +63,7 @@ module.exports = ()=> {
             })
           });
 
-          fbkt().app.use('/graphql', graphqlHTTP({
+          fbkt().app.use('/api/graphql', graphqlHTTP({
             schema: schema,
             // graphiql: true
           }));
