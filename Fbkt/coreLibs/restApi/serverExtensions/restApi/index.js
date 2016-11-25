@@ -5,6 +5,7 @@ const fbkt = require('../../../../../Fbkt');
 
 const configureEndpoint = require('./configureEndpoint');
 const initCustomRestControllers = require('./initCustomRestControllers');
+const initGraphQL = require('./initGraphQL');
 const captureAppRoutes = require('./captureAppRoutes');
 
 const initControllers = (callInfo)=>{
@@ -17,6 +18,7 @@ const initControllers = (callInfo)=>{
 		},
 		pipelineSteps: {  // any number of functions
 			"initCustomRestControllers":	initCustomRestControllers,
+      "initGraphQL":                initGraphQL,
 			"captureAppRoutes":						captureAppRoutes
 		}
 	}, callInfo || {});

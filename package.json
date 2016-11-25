@@ -1,6 +1,6 @@
 {
   "name": "fbkt",
-  "version": "1.0.36",
+  "version": "1.0.37",
   "description": "",
   "presets": [
     "es2015"
@@ -24,10 +24,10 @@
     "crypto-js": "3.1.6",
     "dottie": "1.1.1",
     "express": "4.14.0",
-    "express-graphql": "0.5.4",
+    "express-graphql": "^0.5.4",
     "express-json": "1.0.0",
     "flyd": "0.2.2",
-    "graphql": "0.7.2",
+    "graphql": "^0.7.2",
     "handlebars": "4.0.5",
     "httpstream": "0.1.1",
     "immutable": "3.8.1",
