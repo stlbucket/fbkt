@@ -65,7 +65,7 @@ module.exports = ()=> {
 
           fbkt().app.use('/api/graphql', graphqlHTTP({
             schema: schema,
-            // graphiql: true
+            graphiql: true
           }));
         } else {
           console.log('NO GRAPH QL LIBS')
