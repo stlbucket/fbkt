@@ -1,217 +1,264 @@
 "use strict";
-const fbkt = require('../../../../Fbkt');
-const moment = require('moment');
-const R = require('ramda');
+const fbkt    = require('../../../../Fbkt');
+const moment  = require('moment');
+const R       = require('ramda');
 const Promise = require('bluebird');
-const uuid = require('node-uuid');
+const uuid    = require('node-uuid');
+const Ajv     = require('ajv');
+const ajv     = new Ajv();
+
+// function checkNewWalkInRegistrationAge(fieldName, dateOfBirth) {
+//   console.log('dateOfBirth', dateOfBirth);
+//   process.exit();
+// }
+//
+// ajv.addKeyword('dateOfBirthIsValid', {
+//   async: true,
+//   type: 'string',
+//   validate: checkNewWalkInRegistrationAge
+// });
+
 
 // please see extended comments at the end of this file
 // also see example pipe: scripts/core/fbktPipe/specPipes/multiStep/index.js
 // and the associated spec: scripts/core/fbktPipe/specPipes/multiStep/spec.js
 
-module.exports = (pipeDef, callInfo)=>{
-	// create an instance of the pipe in question
-	const pipe = new FbktPipe(pipeDef);
-	// if callInfo is supplied, immediately execute the pipe
-	// otherwise, return the pipe itself
-	// caller is responsible for later explicitly calling the [execute] method
-	// currying may also be used up the stack
-	return R.is(Object, callInfo) ? pipe.execute(callInfo) : pipe;
+module.exports = (pipeDef, callInfo)=> {
+  // create an instance of the pipe in question
+  const pipe = new FbktPipe(pipeDef);
+  // if callInfo is supplied, immediately execute the pipe
+  // otherwise, return the pipe itself
+  // caller is responsible for later explicitly calling the [execute] method
+  // currying may also be used up the stack
+  return R.is(Object, callInfo) ? pipe.execute(callInfo) : pipe;
 };
 
 const FbktPipe = class {
-	constructor(pipe) {
-		// todo: move this to a config setting
-		this.momentFormatString = 'YYYY-MM-DD HH:mm:ss:SSSS';
-		this.fbktPipe = pipe;
-		this.pipelineSteps = R.clone(this.fbktPipe.pipelineSteps); // necessary?  todo: investigate this
-	}
+  constructor(pipe) {
+    // todo: move this to a config setting
+    this.momentFormatString = 'YYYY-MM-DD HH:mm:ss:SSSS';
+    this.fbktPipe           = pipe;
+    this.ajvKeywords        = pipe.ajvKeywords;
+    this.pipelineSteps      = R.clone(this.fbktPipe.pipelineSteps); // necessary?  todo: investigate this
+  }
 
-	execute(callInfo) {
-		// if there is a dbTree present, pipe errors will be recorded
-		const dbTree = fbkt().dbTree || {	fbkt_core_db:	'NO DATA TREE' };
+  execute(callInfo) {
+    // if there is a dbTree present, pipe errors will be recorded
+    // const dbTree = fbkt().dbTree || {	fbkt_core_db:	'NO DATA TREE' };
 
-		// todo: refactor to clean this up
-		this.callInfo = R.clone(callInfo);
-		this.params = callInfo.params || R.omit('user', callInfo);
-		this.user =  R.is(Object, this.callInfo.user) ? callInfo.user : { login: 'NO_USER'};
-		this.parentPipeName = R.is(Object, this.callInfo.parent) ? this.callInfo.parent.name : 'NO_PARENT';
-		this.recordPipe = callInfo.recordPipe === true && R.is(Object, dbTree.fbkt_core_db) && this.parentPipeName === 'NO_PARENT';
+    // todo: refactor to clean this up
+    this.callInfo       = R.clone(callInfo);
+    this.params         = callInfo.params || R.omit('user', callInfo);
+    this.user           = R.is(Object, this.callInfo.user) ? callInfo.user : {login: 'NO_USER'};
+    this.parentPipeName = R.is(Object, this.callInfo.parent) ? this.callInfo.parent.name : 'NO_PARENT';
+    this.recordPipe     = callInfo.recordPipe; // === true && R.is(Object, dbTree.fbkt_core_db) && this.parentPipeName === 'NO_PARENT';
 
-		this.createWorkspace();
+    this.createWorkspace();
 
-		return this.executeSteps()
-			.then(()=>{
-				// todo: refactor to make support for noDb configurations error-proof
-				// todo: and to optionally report errors to another fbkt instance
+    return this.validateExpectedParams()
+      .then(() => {
+        return this.executeSteps();
+      })
+      .then(()=> {
+        // todo: refactor to make support for noDb configurations error-proof
+        // todo: and to optionally report errors to another fbkt instance
 
-				// this.recordPipe = R.is(Object, fbkt().dbTree) && R.is(Object, fbkt().dbTree.fbkt_core_db);
-				if (this.recordPipe === true){
-					// fbkt().clog('RECORDING PIPE', this.ws.name);
-					return fbkt().dbTree.fbkt_core_db.table.fbkt_pipe.save({
-						params:	{
-							name:				this.ws.name,
-							uid:				this.ws.uid,
-							workspace:	this.ws,
-							fbktPipeStatusId:	1
-						}
-					});
-				} else {
-					return this.workspace.dbRecord = 'NO DATABASE RECORD';
-				}
-			})
-			.then(()=>{
-				return this.workspace.finalResult;
-			})
-			.catch((error)=>{
-				// server spin-up pipes and those that use external resources
-				// may have the exitProcessOnError flag set to true if needed
-				// currently this is used sparingly, but for production, this feature will matter
-				fbkt().clog(`FBKT PIPE ERROR - RAW - ${this.workspace.name}`, error);
-				if (this.workspace.exitProcessOnError === true){
-					fbkt().clog('FBKT PIPE ERROR - WORKSPACE', this.workspace);
-					process.exit();
-				}
+        // this.recordPipe = R.is(Object, fbkt().dbTree) && R.is(Object, fbkt().dbTree.fbkt_core_db);
+        if (this.recordPipe === true) {
+          return this.workspace.dbRecord = 'SENT TO RABBIT MQ';
+          // fbkt().clog('RECORDING PIPE', this.ws.name);
+          // return fbkt().dbTree.fbkt_core_db.table.fbkt_pipe.save({
+          // 	params:	{
+          // 		name:				this.ws.name,
+          // 		uid:				this.ws.uid,
+          // 		workspace:	this.ws,
+          // 		fbktPipeStatusId:	1
+          // 	}
+          // });
+        } else {
+          return this.workspace.dbRecord = 'NO DATABASE RECORD';
+        }
+      })
+      .then(()=> {
+        return this.workspace.finalResult;
+      })
+      .catch((error)=> {
+        // server spin-up pipes and those that use external resources
+        // may have the exitProcessOnError flag set to true if needed
+        // currently this is used sparingly, but for production, this feature will matter
 
-				if (R.is(Object, fbkt().dbTree) && R.is(Object, fbkt().dbTree.fbkt_core_db)){
-					return fbkt().dbTree.fbkt_core_db.table.fbkt_pipe.save({
-						params:	{
-							name:				this.ws.name,
-							uid:				this.ws.uid,
-							workspace:	this.ws,
-							fbktPipeStatusId:	1
-						}
-					})
-						.then((dbRecord)=>{
-							if (this.workspace.exitProcessOnError){
-								fbkt().clog('FBKT PIPE ERROR - PROCESSED', dbRecord, true);
-								process.exit();
-							} else {
-								this.workspace.finalResult = error;
-								throw error;
-							}
-						});
-				}
-			});
-	}
+        // THIS IS WHERE WE DUMP THE ERROR TO RABBIT MQ
+        // BUT FOR NOW, WE JUST...
+        // fbkt().clog(`FBKT PIPE ERROR - RAW - ${this.workspace.name}`, error);
+        if (this.workspace.exitProcessOnError === true) {
+          fbkt().clog('FBKT PIPE ERROR - ENDING PROCESS - WORKSPACE', this.workspace);
+          process.exit();
+        }
 
-	executeSteps() {
-		const {pipelineSteps} = this.fbktPipe;
+        throw error;
+      });
+  }
 
-		// this is the core of it all
-		// we use the coroutine to update the workspace
-		// after each pipelineStep is executed
-		const co = Promise.coroutine(function *(){
-			let fnKeys = Reflect.ownKeys(pipelineSteps);
+  executeSteps() {
+    const {pipelineSteps} = this.fbktPipe;
 
-			for (let fnKey of fnKeys) {
-				const stepFn = pipelineSteps[fnKey];
-				this.preProcessStep(fnKey, stepFn);
+    // this is the core of it all
+    // we use the coroutine to update the workspace
+    // after each pipelineStep is executed
+    const co = Promise.coroutine(function *() {
+      let fnKeys = Reflect.ownKeys(pipelineSteps);
 
-				const stepResult = yield Promise.resolve(this.executeStep(fnKey, stepFn));
+      for (let fnKey of fnKeys) {
+        const stepFn = pipelineSteps[fnKey];
+        this.preProcessStep(fnKey, stepFn);
 
-				this.recordStepResult(fnKey, stepResult, stepFn);
-				this.capturePipelineParamValues();
-			}
-		}).bind(this);
+        const stepResult = yield Promise.resolve(this.executeStep(fnKey, stepFn));
+
+        this.recordStepResult(fnKey, stepResult, stepFn);
+        this.capturePipelineParamValues();
+      }
+    }).bind(this);
 
 
-		return co();
-	}
+    return co();
+  }
 
-	createWorkspace(){
-		// the workspace is the record of pipe execution
+  createWorkspace() {
+    // the workspace is the record of pipe execution
 
-		return this.workspace = {
-			user:									this.user,
-			params:								this.params,
-			uid:									uuid.v4(),
-			name:									this.fbktPipe.name,
-			parentPipeName:				this.parentPipeName,
-			pipelineSteps:				this.pipelineSteps,
-			expectedParams:				this.fbktPipe.expectedParams || {},
-			pipelineParams:				this.fbktPipe.pipelineParams || {},
-			pipelineParamValues:	{},
-			stepMetrics:					{},
-			stepResults:					{},
-			stepResultsDeep:			{},
-			exitProcessOnError:		this.fbktPipe.exitProcessOnError || false
-		};
-	}
+    return this.workspace = {
+      user: this.user,
+      params: this.params,
+      uid: uuid.v4(),
+      name: this.fbktPipe.name,
+      parentPipeName: this.parentPipeName,
+      pipelineSteps: this.pipelineSteps,
+      expectedParams: this.fbktPipe.expectedParams || {},
+      pipelineParams: this.fbktPipe.pipelineParams || {},
+      pipelineParamValues: {},
+      stepMetrics: {},
+      stepResults: {},
+      stepResultsDeep: {},
+      exitProcessOnError: this.fbktPipe.exitProcessOnError || false
+    };
+  }
 
-	get ws(){
-		// there is likely a more efficient way to export the workspace
-		// the reason for this is that the workspace needs to be a string
-		// since params may be functions, we need to clean the workspace of them
-		return JSON.parse(JSON.stringify(this.workspace));
-	}
+  validateExpectedParams() {
+    if (['verifyAge', 'calculateAge', 'addWalkIn'].includes(this.ws.name) === true) {
+      // console.log('LET US VALIDATE', this.ws.name);
+      R.toPairs(this.ajvKeywords).forEach(
+        (keyValuePair) => {
+          const keyword    = keyValuePair[0];
+          const definition = keyValuePair[1];
+          try {
+            ajv.addKeyword(keyword, definition);
+          } catch (error) {
+            // console.log('error', error);
+          }
+        }
+      );
 
-	preProcessStep(fnKey){
-		this.workspace.stepMetrics[fnKey] = this.workspace.stepMetrics[fnKey] || {};
+      const schema = R.merge(
+        this.ws.expectedParams,
+        {
+          "$async": true,
+        }
+      );
 
-		this.workspace.stepMetrics[fnKey].startTimestamp = moment().format(this.momentFormatString);
-	}
+      const workspace = this.ws;
 
-	recordStepResult(fnKey, stepResult, stepFn){
-		this.workspace.stepMetrics[fnKey].endTimestamp = moment().format(this.momentFormatString);
+      return ajv.validate(schema, this.ws.params)
+        .catch(function (err) {
+          if (!(err instanceof Ajv.ValidationError)) throw err;
+          // data is invalid
+          // console.log('Validation errors:', err);
+          const fbktError = fbkt().FbktCustomError('FbktPipeInvalidParameters', {
+            pipeName: workspace.name,
+            expectedParams: workspace.expectedParams,
+            actualParams: workspace.params,
+            validationErrors: err.errors
+          });
+          // console.log('NEW ERROR', fbktError);
+          throw fbktError;
+        });
+    } else {
+      return Promise.resolve(true);
+    }
+  }
 
-		// record stepResults - these are used selectively along the way via pipelineParams
-		this.workspace.stepResults[fnKey] = this.workspace.stepResults[fnKey] || {};
-		// the current stepResult becomes finalResult
-		this.workspace.finalResult = this.workspace.stepResults[fnKey] = stepResult;
+  preProcessStep(fnKey) {
+    this.workspace.stepMetrics[fnKey] = this.workspace.stepMetrics[fnKey] || {};
 
-		// stepResultsDeep allows us to look at pipes within pipes in one workspace
-		if (stepFn instanceof FbktPipe){
-			this.workspace.stepResultsDeep[fnKey] = stepFn.ws.stepResults;
-		} else {
-			this.workspace.stepResultsDeep[fnKey] = stepResult;
-		}
+    this.workspace.stepMetrics[fnKey].startTimestamp = moment().format(this.momentFormatString);
+  }
 
-		// fbkt().clog('CURRENT WORKSPACE', this.workspace);
-	}
+  recordStepResult(fnKey, stepResult, stepFn) {
+    this.workspace.stepMetrics[fnKey].endTimestamp = moment().format(this.momentFormatString);
 
-	capturePipelineParamValues(){
-		// pipelineParams are captured in pipelineParamValues after each step
-		this.workspace.pipelineParamValues =	R.mapObjIndexed((path, key, obj)=>{
-				return R.path(path.split('.'), this.workspace.stepResults)
-			}, this.workspace.pipelineParams);
-	}
+    // record stepResults - these are used selectively along the way via pipelineParams
+    this.workspace.stepResults[fnKey] = this.workspace.stepResults[fnKey] || {};
+    // the current stepResult becomes finalResult
+    this.workspace.finalResult        = this.workspace.stepResults[fnKey] = stepResult;
 
-	executeCallInfoFunctionStep(stepFn){
-		// todo: look into R.clone for the params so that within each function, params are immutable
-		return stepFn({
-			user:		this.workspace.user,
-			params:	R.merge(R.clone(this.workspace.params), R.clone(this.workspace.pipelineParamValues))
-		});
-	};
+    // stepResultsDeep allows us to look at pipes within pipes in one workspace
+    if (stepFn instanceof FbktPipe) {
+      this.workspace.stepResultsDeep[fnKey] = stepFn.ws.stepResults;
+    } else {
+      this.workspace.stepResultsDeep[fnKey] = stepResult;
+    }
 
-	executeFbktPipeStep(stepFn){
-		return stepFn.execute({
-			user:		this.workspace.user,
-			params:	R.merge(R.clone(this.workspace.params), R.clone(this.workspace.pipelineParamValues)),
-			parent: this
-		});
-	}
+    // fbkt().clog('CURRENT WORKSPACE', this.workspace);
+  }
 
-	executeStep(fnKey, stepFn){
-		// todo: potentially refactor this using R.curry so there is no switch here
-		switch(typeof stepFn){
-			case 'function':
-				return this.executeCallInfoFunctionStep(stepFn);
-				break;
-			case 'object':
-				if (!(stepFn instanceof FbktPipe)) throw fbkt().FbktCustomError('FbktPipeInvalidStepObject', this.ws);
-				return this.executeFbktPipeStep(stepFn);
-				break;
-			default:
-				throw fbkt().FbktCustomError('FbktPipeInvalidPipeType', {
-					pipeName:	this.fbktPipe.name,
-					stepName:	fnKey,
-					pipeType: typeof stepFn,
-				});
-				break;
-		}
-	}
+  capturePipelineParamValues() {
+    // pipelineParams are captured in pipelineParamValues after each step
+    this.workspace.pipelineParamValues = R.mapObjIndexed((path, key, obj)=> {
+      return R.path(path.split('.'), this.workspace.stepResults)
+    }, this.workspace.pipelineParams);
+  }
+
+  executeCallInfoFunctionStep(stepFn) {
+    // todo: look into R.clone for the params so that within each function, params are immutable
+    return stepFn({
+      user: this.workspace.user,
+      params: R.merge(R.clone(this.workspace.params), R.clone(this.workspace.pipelineParamValues))
+    });
+  };
+
+  executeFbktPipeStep(stepFn) {
+    return stepFn.execute({
+      user: this.workspace.user,
+      params: R.merge(R.clone(this.workspace.params), R.clone(this.workspace.pipelineParamValues)),
+      parent: this
+    });
+  }
+
+  executeStep(fnKey, stepFn) {
+    // todo: potentially refactor this using R.curry so there is no switch here
+    switch (typeof stepFn) {
+      case 'function':
+        return this.executeCallInfoFunctionStep(stepFn);
+        break;
+      case 'object':
+        if (!(stepFn instanceof FbktPipe)) throw fbkt().FbktCustomError('FbktPipeInvalidStepObject', this.ws);
+        return this.executeFbktPipeStep(stepFn);
+        break;
+      default:
+        throw fbkt().FbktCustomError('FbktPipeInvalidPipeType', {
+          pipeName: this.fbktPipe.name,
+          stepName: fnKey,
+          pipeType: typeof stepFn,
+        });
+        break;
+    }
+  }
+
+  get ws() {
+    // there is likely a more efficient way to export the workspace
+    // the reason for this is that the workspace needs to be a string
+    // since params may be functions, we need to clean the workspace of them
+    return JSON.parse(JSON.stringify(this.workspace));
+  }
 };
 
 

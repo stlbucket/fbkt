@@ -14,16 +14,4 @@ module.exports = ()=>{
 		(ext)=> {
 			return ext[R.keys(ext)[0]]();
 		});
-	
-	// var serverExtensionsAreInitialized = [];
-	//
-	// _.forOwn(fbkt().fbktLibs, function(lib){
-	// 	if (is.array(lib.serverExtensions)){
-	// 		_.forEach(lib.serverExtensions, function(serverExtension){
-	// 			serverExtensionsAreInitialized.push(serverExtension);
-	// 		});
-	// 	}
-	// });
-	//
-	// return sequence(serverExtensionsAreInitialized);
 };

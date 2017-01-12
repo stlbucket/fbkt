@@ -15,6 +15,7 @@
     "initPackage": "NODE_ENV=dev node devServer dev initPackage"
   },
   "dependencies": {
+    "ajv": "^4.10.4",
     "axios": "0.14.0",
     "bluebird": "^3.4.6",
     "body-parser": "1.15.2",

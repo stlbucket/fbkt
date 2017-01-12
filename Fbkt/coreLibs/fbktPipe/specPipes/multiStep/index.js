@@ -1,4 +1,5 @@
 "use strict";
+const Promise = require('bluebird');
 const fbkt = require('../../../../../Fbkt');
 const oneStep = require('../oneStep');
 
@@ -54,7 +55,16 @@ module.exports = (callInfo)=>{
 					message: 'Got message from step 1...  ' + message
 				};
 			},
-			oneStep:	oneStep()
+      returnNull: (callInfo) => {
+        console.log('DOING NOTHING HERE');
+      },
+      returnPromiseNothering: (callInfo) => {
+        return Promise.resolve()
+          .then(() => {
+            console.log('SERIOUSLY DOING NOTHING HERE');
+          });
+      },
+      oneStep:	oneStep()
 		}
 	}, callInfo);
 };
