@@ -1,5 +1,5 @@
 "use strict";
-const fbkt = require('../../../../../Fbkt');
+const fbkt = require('../../../../Fbkt');
 
 module.exports = (callInfo)=>{
 	return fbkt().FbktPipe({
