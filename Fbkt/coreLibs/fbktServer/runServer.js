@@ -29,16 +29,9 @@ module.exports = function() {
 		=============================================
 		`);
 	} else if (R.is(Array, knownCommand.commandList)){
-    console.log('KNOWN COMMAND', knownCommand);
 
 		return sequence(knownCommand.commandList, knownCommand.args)
-		
-		// return Promise.each(
-		// 	knownCommand.commandList,
-		// 	command=>{
-		// 		return command(knownCommand.args);
-		// 	}
-		// )
+
 	} else if (R.is(Function, knownCommand)){
 		return knownCommand();
 	} else {

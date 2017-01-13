@@ -4,7 +4,7 @@ const Promise = require('bluebird');
 
 module.exports = ()=>{
 	console.log('==========FIRE SERVER READY EVENT==========');
-	const startupPackages = fbkt().getComponentFromAllLibs('startupPackages');
+	const startupPackages = fbkt().getComponentFromAllLibs('startupPackage');
 
 	return Promise.each(
 		startupPackages,
