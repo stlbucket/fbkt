@@ -75,7 +75,6 @@ module.exports = (config, appLibs)=>{
     return __fbkt;
 	} else {
 		const newFbkt = buildFbkt(config, appLibs);
-    console.trace('NEW FBKT', newFbkt);
     return newFbkt;
 	}
 };

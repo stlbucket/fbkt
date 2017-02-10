@@ -19,7 +19,7 @@ module.exports = (callInfo)=> {
 				// 	console.trace('initRestApi.configureEndpoint.getOne - NO HANDLER', callInfo.params);
 				// 	process.exit();
 				// }
-				
+
 				return configureEndpoint({
 					params: {
 						auth:		 callInfo.params.auth,
