@@ -1,7 +1,6 @@
 var createApp = require('./createApp');
 var currentUnitTest = require('./runCurrentUnitTest');
 var allUnitTests = require('./runAllUnitTests');
-var initPackage = require('./initPackage');
 var initServerExtensions = require('./initServerExtensions');
 var executeStartupPackages = require('./executeStartupPackages');
 var startServer = require('./startServer');

@@ -5,5 +5,4 @@ module.exports = {
 	fbktServer:	require('./fbktServer'),
 	fbktPassport:	require('./fbktPassport'),
 	restApi:		require('./restApi'),
-	devSupport:	require('./devSupport')
 };
