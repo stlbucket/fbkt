@@ -83,17 +83,5 @@ module.exports = {
       allUnitTests,
       stopServer
     ],
-  },
-  initPackage: {
-    description:	[
-      '-- create a new package'
-    ],
-    commandList: [
-      createApp,
-      initServerExtensions,
-      executeStartupPackages,
-      initPackage,
-      stopServer
-    ],
-  },
+  }
 };
