@@ -1,5 +1,5 @@
 # fbkt
-function bucket is an opinionated toolkit for building a postgres-backed(optionally, but really it's the only option right now) web server that helps to quickly pull together data in a JSON format to support web app development.
+function bucket is an opinionated toolkit for building a web server that helps to quickly pull together data in a JSON format to support web app development.
 
 usage:  
 for a simple fbkt package, use the <a href="https://github.com/stlbucket/fbkt-extension-starter">fbkt-extension-starter</a>
@@ -7,21 +7,19 @@ for a simple fbkt package, use the <a href="https://github.com/stlbucket/fbkt-ex
 ##base fbkt package
 - <a href="https://github.com/stlbucket/fbkt/blob/master/Fbkt/coreLibs/fbktPipe/fbktPipe/index.js">fbktPipe</a>
   - custom pipeline pattern for developing server-side code
-    - error handling
-    - workspace persistence
-    - simple workflow
 - fbktServer
-- unitTest
-  - integrated unit-testing (mocha)
 - utility
   - file i/o
-  - templating
-  - etc.
+  - handlebars templating
+  - crypto
+  - custom errors
 - restApi
   - express-based (this lib could be broken out to support other servers)
 - fbktPassport 
   - token-based auth
   - this area of the stack should be improved...  <a href="https://github.com/paypal/seifnode">seif?</a>, oauth, etc.
+ - graphQl
+  - dynamically compose a graph-ql schema from multiple fbkt-based libs, extending dbAccess.composite structure
 
 ##extension libraries
 - <a href="https://github.com/stlbucket/fbkt-pg">fbkt-pg</a>
@@ -34,11 +32,6 @@ for a simple fbkt package, use the <a href="https://github.com/stlbucket/fbkt-ex
   - dbAccess
     - wraps knex.js for traditional db access.  (this is an old component that will be re-written, but it works for now)
     - data composition by configuration(json aggregation in the db)
-- <a href="https://github.com/stlbucket/fbkt-pg-graphql">fbkt-pg-graphql</a> (in progress)
-  - dynamically compose a graph-ql schema from multiple fbkt-based libs, extending dbAccess.composite structure
-- fbkt-login (soon - needs to be refactored from old code)
-- fbkt-data-import (future)
-  - customizable data import/export for flat files and json for quick custom data sets
-- fbkt-config (future)
-  - utility to help configure a new fbkt server based on installed libs
-- fbkt-react/apollo based clients... 
+- <a href="https://github.com/stlbucket/fbkt-login">fbkt-login</a>
+ - requires fbkt-pg
+ - provides basic schema for managing organizations, contacts, licenses
