@@ -4,8 +4,7 @@ var util = require('util');
 var colors = require('colors');
 
 const clogColors = [
-  'green',
-  'cyan',
+  'red',
 ];
 
 let _curColor = 0;

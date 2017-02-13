@@ -33,7 +33,7 @@ describe(__filename, function() {
 				done();
 			})
       .catch(error => {
-        // fbkt().clog('ERROR', error, true);
+        fbkt().clogError('MULTI-STEP PIPE ERROR', error, true);
         done(error);
       });
 

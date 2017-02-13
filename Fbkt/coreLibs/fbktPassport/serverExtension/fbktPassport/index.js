@@ -74,7 +74,7 @@ module.exports = function(basicLoginHandler, tokenLoginHandler){
 				setupTokenStrategy(authenticatedUser);
 			})
 			.catch(function(error){
-				fbkt().clog('ERROR SPOOFING TEST USER', error, true);
+				fbkt().clogError('ERROR SPOOFING TEST USER', error, true);
 			});
 	} else{
 		setupTokenStrategy();
