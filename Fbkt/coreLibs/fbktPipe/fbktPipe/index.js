@@ -5,22 +5,8 @@ const R       = require('ramda');
 const Promise = require('bluebird');
 const uuid    = require('node-uuid');
 const Ajv     = require('ajv');
-const ajv     = new Ajv();
 
-// function checkNewWalkInRegistrationAge(fieldName, dateOfBirth) {
-//   console.log('dateOfBirth', dateOfBirth);
-//   process.exit();
-// }
-//
-// ajv.addKeyword('dateOfBirthIsValid', {
-//   async: true,
-//   type: 'string',
-//   validate: checkNewWalkInRegistrationAge
-// });
-
-
-// please see extended comments at the end of this file
-// also see example pipe: scripts/core/fbktPipe/specPipes/multiStep/index.js
+// see example pipe: scripts/core/fbktPipe/specPipes/multiStep/index.js
 // and the associated spec: scripts/core/fbktPipe/specPipes/multiStep/spec.js
 
 module.exports = (pipeDef, callInfo)=> {
@@ -89,7 +75,7 @@ const FbktPipe = class {
 
         // THIS IS WHERE WE DUMP THE ERROR TO RABBIT MQ
         // BUT FOR NOW, WE JUST...
-        // fbkt().clog(`FBKT PIPE ERROR - RAW - ${this.workspace.name}`, error);
+        // fbkt().clog(`FBKT PIPE ERROR - RAW - ${this.workspace.name}`, error, true);
         if (this.workspace.exitProcessOnError === true) {
           fbkt().clog('FBKT PIPE ERROR - ENDING PROCESS - WORKSPACE', this.workspace);
           process.exit();
@@ -144,46 +130,43 @@ const FbktPipe = class {
   }
 
   validateExpectedParams() {
-    if (['verifyAge', 'calculateAge', 'addWalkIn'].includes(this.ws.name) === true) {
-      // console.log('LET US VALIDATE', this.ws.name);
-      R.toPairs(this.ajvKeywords).forEach(
-        (keyValuePair) => {
-          const keyword    = keyValuePair[0];
-          const definition = keyValuePair[1];
-          try {
-            ajv.addKeyword(keyword, definition);
-          } catch (error) {
-            // console.log('error', error);
-          }
+    const ajv = new Ajv();
+
+    R.toPairs(this.ajvKeywords || []).forEach(
+      (keyValuePair) => {
+        const keyword    = keyValuePair[0];
+        const definition = keyValuePair[1];
+        try {
+          ajv.addKeyword(keyword, definition);
+        } catch (error) {
+          // console.log('error', error);
         }
-      );
+      }
+    );
 
-      const schema = R.merge(
-        this.ws.expectedParams,
-        {
-          "$async": true,
-        }
-      );
+    const schema = R.merge(
+      this.ws.expectedParams,
+      {
+        "$async": true,
+      }
+    );
 
-      const workspace = this.ws;
+    const workspace = this.ws;
 
-      return ajv.validate(schema, this.ws.params)
-        .catch(function (err) {
-          if (!(err instanceof Ajv.ValidationError)) throw err;
-          // data is invalid
-          // console.log('Validation errors:', err);
-          const fbktError = fbkt().FbktCustomError('FbktPipeInvalidParameters', {
-            pipeName: workspace.name,
-            expectedParams: workspace.expectedParams,
-            actualParams: workspace.params,
-            validationErrors: err.errors
-          });
-          // console.log('NEW ERROR', fbktError);
-          throw fbktError;
+    return ajv.validate(schema, this.ws.params)
+      .catch(err => {
+        if (!(err instanceof Ajv.ValidationError)) throw err;
+        // data is invalid
+        // console.log('Validation errors:', err);
+        const fbktError = fbkt().FbktCustomError('FbktPipeInvalidParameters', {
+          pipeName: workspace.name,
+          expectedParams: workspace.expectedParams,
+          actualParams: workspace.params,
+          validationErrors: err.errors
         });
-    } else {
-      return Promise.resolve(true);
-    }
+        // console.log('NEW ERROR', fbktError);
+        throw fbktError;
+      });
   }
 
   preProcessStep(fnKey) {

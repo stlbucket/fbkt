@@ -33,7 +33,10 @@ module.exports = (callInfo)=>{
 		name:           'multiStepPipe',
 		filename:       __filename,
 		expectedParams: {
-			testId: 'uuid'
+      properties: {
+        testId: { type: 'string'},
+      },
+      required: [ 'testId' ]
 		},
 		expectedReturn: {},
 		pipelineParams: {

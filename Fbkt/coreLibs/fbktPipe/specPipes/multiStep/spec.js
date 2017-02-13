@@ -11,7 +11,7 @@ const pipeDef = require('./index');
 
 describe(__filename, function() {
 
-	it('multi-step pipe - explicit execute', function (done) {
+	it.only('multi-step pipe - explicit execute', function (done) {
 		const testId = uuid.v4();
 		const user = {login: "who@cares.com"};
 		const params = {
@@ -31,7 +31,11 @@ describe(__filename, function() {
 				fbkt().clog('EXPLICIT EXECUTE MULTI-STEP PIPE RESULT', result, true);
 				result.testId.should.equal(testId);
 				done();
-			});
+			})
+      .catch(error => {
+        // fbkt().clog('ERROR', error, true);
+        done(error);
+      });
 
 	});
 
