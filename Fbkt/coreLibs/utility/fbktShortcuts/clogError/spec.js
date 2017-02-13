@@ -3,12 +3,8 @@ var fbkt = require('../../../../../Fbkt');
 
 describe(__filename, function(){
 	it("output null", function(done){
-		// fbkt().clog("NULL", null);
+		// fbkt().clogError("ERROR MSG", 'error message');
 		done();
 	});
 	
-	it("output undefined", function(done){
-		// fbkt().clog("UNDEFINED", undefined);
-		done();
-	});
 });

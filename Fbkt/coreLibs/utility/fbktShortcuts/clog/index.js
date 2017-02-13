@@ -10,9 +10,13 @@ const clogColors = [
 
 let _curColor = 0;
 
-module.exports = function(sectionIdentifier, logItem, verbose){
+module.exports = function(sectionIdentifier, logItem, verbose, color){
+  let useColor = color;
 
-  _curColor = _curColor + 1 >= clogColors.length ? 0 : _curColor + 1;
+  if (R.isNil(useColor)) {
+    _curColor = _curColor + 1 >= clogColors.length ? 0 : _curColor + 1;
+    useColor = clogColors[_curColor];
+  }
 
 	var cloptions = {
 		sectionIdentifier:			sectionIdentifier,
@@ -22,7 +26,7 @@ module.exports = function(sectionIdentifier, logItem, verbose){
 		suffix:		'____________',
 	};
 
-	const thisColor = R.curry(colors[clogColors[_curColor]]);
+	const thisColor = R.curry(colors[useColor]);
 
   const header = thisColor(cloptions.prefix, cloptions.sectionIdentifier, cloptions.prefix);
   const message = cloptions.verbose === true ? thisColor(util.inspect(cloptions.logItem, false, null)) : thisColor(cloptions.logItem);
