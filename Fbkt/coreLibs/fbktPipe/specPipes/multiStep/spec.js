@@ -11,7 +11,7 @@ const pipeDef = require('./index');
 
 describe(__filename, function() {
 
-	it.only('multi-step pipe - explicit execute', function (done) {
+	it('multi-step pipe - explicit execute', function (done) {
 		const testId = uuid.v4();
 		const user = {login: "who@cares.com"};
 		const params = {
