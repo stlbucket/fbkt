@@ -77,7 +77,7 @@ const FbktPipe = class {
         // BUT FOR NOW, WE JUST...
         // fbkt().clog(`FBKT PIPE ERROR - RAW - ${this.workspace.name}`, error, true);
         if (this.workspace.exitProcessOnError === true) {
-          fbkt().clog('FBKT PIPE ERROR - ENDING PROCESS - WORKSPACE', this.workspace);
+          fbkt().clogError('FBKT PIPE ERROR - ENDING PROCESS - WORKSPACE', this.workspace, true);
           process.exit();
         }
 
