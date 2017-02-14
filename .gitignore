@@ -8,6 +8,8 @@ lib-cov
 *.orig
 ui_components
 
+.env
+
 pids
 logs
 results
