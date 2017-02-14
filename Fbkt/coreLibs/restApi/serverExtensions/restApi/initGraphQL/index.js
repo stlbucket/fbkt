@@ -48,9 +48,9 @@ module.exports = ()=> {
             }
           });
           fbkt().clog('GRAPH QL CONFIG', {
-            queries:  queries,
-            mutations: mutations
-          });
+            queries:  R.keys(queries),
+            mutations: R.keys(mutations)
+          }, true);
 
           const schema = new GraphQLSchema({
             query: new GraphQLObjectType({

@@ -6,7 +6,7 @@ const fbkt = require('../../../../../../Fbkt');
 module.exports = ()=>{
 
 	const extensions = fbkt().getComponentFromAllLibs('serverExtensions');
-  fbkt().clog('==========INIT SERVER EXTENSIONS==========', extensions);
+  fbkt().clog('INIT SERVER EXTENSIONS', extensions, true);
 
 	return Promise.mapSeries(
 		extensions, 

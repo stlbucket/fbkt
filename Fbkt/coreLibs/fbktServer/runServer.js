@@ -3,15 +3,16 @@ let R = require('ramda');
 let Promise = require('bluebird');
 const sequence = require('when/sequence');  //todo: get rid of when lib
 const resolveCommandMap = require('./resolveCommandMap');
+const args = require('minimist')(process.argv.slice(2));
 
 var fbkt = require('../../../Fbkt');
 
 module.exports = function() {
 	const commandMap = resolveCommandMap();
-  const command = process.argv[3] || 'runServer';
+  const command = args.command || args.c || 'runServer';
 
-  fbkt().clog('COMMAND MAP', commandMap);
-	fbkt().clog('COMMAND', command);
+  fbkt().clog('COMMAND MAP', commandMap, true);
+	fbkt().clog('COMMAND', command, true);
 	const knownCommand = commandMap[command];
 	if (R.isNil(knownCommand)){
 		console.log(`

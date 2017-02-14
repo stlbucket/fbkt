@@ -1,21 +1,22 @@
-var createApp = require('./createApp');
-var currentUnitTest = require('./runCurrentUnitTest');
-var allUnitTests = require('./runAllUnitTests');
-var initServerExtensions = require('./initServerExtensions');
-var executeStartupPackages = require('./executeStartupPackages');
-var startServer = require('./startServer');
-var stopServer = require('./stopServer');
-var reportFbktConfig = require('./reportFbktConfig');
-var reportAppRoutes = require('./reportAppRoutes');
-var reportUnknownCommand = require('./reportUnknownCommand');
+const createApp = require('./createApp');
+const currentUnitTest = require('./runCurrentUnitTest');
+const allUnitTests = require('./runAllUnitTests');
+const initServerExtensions = require('./initServerExtensions');
+const executeStartupPackages = require('./executeStartupPackages');
+const startServer = require('./startServer');
+const stopServer = require('./stopServer');
+const reportFbktConfig = require('./reportFbktConfig');
+const reportAppRoutes = require('./reportAppRoutes');
+const reportUnknownCommand = require('./reportUnknownCommand');
+const args = require('minimist')(process.argv.slice(2));
 
 const reportCommandMap = function(){
-	var theOnlyCommandToReport = process.argv[4] || 'ALL OF THEM';
+  var theOnlyCommandToReport = args.command || args.c || 'ALL OF THEM';
 
-	console.log('**********COMMAND MAP*********')
+  console.log('**********COMMAND MAP*********')
 	console.log('');
 	_.forOwn(commandMap, function(commandInfo, commandName){
-
+``
 		if (theOnlyCommandToReport === 'ALL OF THEM' || theOnlyCommandToReport === commandName) {
 			console.log('~~~~~~~~~~ ' + commandName);
 		}

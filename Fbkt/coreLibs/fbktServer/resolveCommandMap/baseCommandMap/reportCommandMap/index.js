@@ -1,7 +1,9 @@
-module.exports = function(){
-	var theOnlyCommandToReport = process.argv[4] || 'ALL OF THEM';
+const args     = require('minimist')(process.argv.slice(2));
 
-	console.log('**********COMMAND MAP*********')
+module.exports = function(){
+  const theOnlyCommandToReport = args.command || args.c || 'ALL OF THEM';
+
+  console.log('**********COMMAND MAP*********')
 	console.log('');
 	_.forOwn(commandMap, function(commandInfo, commandName){
 
