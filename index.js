@@ -1,6 +1,6 @@
-let Promise = require('bluebird');
-let Fbkt = require('./Fbkt');
+require('./loadEnv');
 let __fbkt = null;
+const Fbkt = require('./Fbkt');
 const baseCommandMap = require('./Fbkt/coreLibs/fbktServer/resolveCommandMap/baseCommandMap');
 
 module.exports = (config, appLibs, getBaseCommandMap)=>{
