@@ -4,7 +4,7 @@ const R = require('ramda');
 const args = require('minimist')(process.argv.slice(2));
 
 module.exports = function(){
-  var testLibName = args.command || args.c;
+  var testLibName = args.testLib;
 
   return fbkt().libs.unitTest.runAllUnitTests({
 		params:	{

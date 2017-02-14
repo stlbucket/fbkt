@@ -9,6 +9,7 @@ var fbkt = require('../../../Fbkt');
 
 module.exports = function() {
 	const commandMap = resolveCommandMap();
+  console.log('args', args);
   const command = args.command || args.c || 'runServer';
 
   fbkt().clog('COMMAND MAP', commandMap, true);
@@ -30,8 +31,9 @@ module.exports = function() {
 		=============================================
 		`);
 	} else if (R.is(Array, knownCommand.commandList)){
+    console.log('KNOWN COMMAND', command, knownCommand);
 
-		return sequence(knownCommand.commandList, knownCommand.args)
+    return sequence(knownCommand.commandList, knownCommand.args)
 
 	} else if (R.is(Function, knownCommand)){
 		return knownCommand();

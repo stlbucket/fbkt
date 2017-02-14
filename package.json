@@ -7,12 +7,11 @@
   ],
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_ENV=dev node devServer dev",
-    "test": "NODE_ENV=test node devServer dev runAllUnitTests",
-    "testPort": "PORT=20832 NODE_ENV=test node devServer dev",
-    "testCommand": "NODE_ENV=test node devServer dev testCommand",
-    "startAndStopServer": "NODE_ENV=test node devServer dev startAndStopServer",
-    "initPackage": "NODE_ENV=dev node devServer dev initPackage"
+    "dev": "NODE_ENV=dev node devServer",
+    "test": "NODE_ENV=test node devServer -c runAllUnitTests",
+    "testPort": "PORT=20832 NODE_ENV=test node devServer",
+    "testCommand": "NODE_ENV=test node devServer -c testCommand",
+    "startAndStopServer": "NODE_ENV=test node devServer -c startAndStopServer"
   },
   "dependencies": {
     "ajv": "^4.10.4",
