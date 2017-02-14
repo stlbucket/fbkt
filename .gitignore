@@ -9,6 +9,8 @@ lib-cov
 ui_components
 
 .env
+.env.prod
+.env.stage
 
 pids
 logs
