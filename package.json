@@ -7,11 +7,10 @@
   ],
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_ENV=dev node devServer",
-    "test": "NODE_ENV=test node devServer -c runAllUnitTests",
-    "testPort": "PORT=20832 NODE_ENV=test node devServer",
-    "testCommand": "NODE_ENV=test node devServer -c testCommand",
-    "startAndStopServer": "NODE_ENV=test node devServer -c startAndStopServer"
+    "start": "node server --NODE_ENV dev",
+    "test": "node server --NODE_ENV test --command runAllUnitTests",
+    "testCommand": "node server --NODE_ENV test --command testCommand",
+    "startAndStopServer": "node server --NODE_ENV test --command startAndStopServer"
   },
   "dependencies": {
     "ajv": "^4.10.4",

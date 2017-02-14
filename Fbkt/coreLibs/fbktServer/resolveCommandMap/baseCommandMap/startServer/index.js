@@ -2,7 +2,7 @@
 const fbkt = require('../../../../../../Fbkt');
 
 module.exports = ()=>{
-	const port = process.env.PORT || 20831;
+	const port = fbkt().config.port;
 	
 	fbkt().app.listen(port, function () {
 		console.log('...');

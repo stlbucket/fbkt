@@ -1,5 +1,5 @@
 let Fbkt = require('./index');
-let config = require('./config/dev');
+let config = require('./config');
 
 const appLibs = {
 	testLib:	require('./testSupport/testLib')
