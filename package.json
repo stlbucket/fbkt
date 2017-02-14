@@ -1,6 +1,6 @@
 {
   "name": "fbkt",
-  "version": "1.0.60",
+  "version": "1.0.61",
   "description": "",
   "presets": [
     "es2015"
@@ -61,6 +61,7 @@
     "when": "3.7.7"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
     "mocha": "2.4.5"
   },
   "keywords": [],

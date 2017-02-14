@@ -12,7 +12,7 @@ describe(__filename, function () {
     fbkt().clog('PING EMITTER', target, true);
 
     target.on('PING_ONE', (e)=>{
-      fbkt().clog('EVENT FIRED', e);
+      fbkt().clog('EVENT FIRED', e, true);
       done();
     });
 
