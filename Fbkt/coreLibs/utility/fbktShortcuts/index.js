@@ -7,5 +7,6 @@ module.exports = {
   clogError:            require('./clogError'),
 	object:								require('./object'),
 	event:								require('./event'),
-	crypto:								require('./crypto')
+	crypto:								require('./crypto'),
+  getEnv:               require('./getEnv')
 };
