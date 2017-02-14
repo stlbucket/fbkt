@@ -22,8 +22,7 @@ describe('select locations', function() {
 		};
 		
 		const camel = camelCase(snake);
-		fbkt().clog('camel', camel);
-		
+		fbkt().clog('camel', camel, true);
 		
 		done();
 		

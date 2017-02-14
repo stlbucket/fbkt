@@ -9,7 +9,7 @@ describe(__filename, function () {
 
   it('CHECKS FOR SOMETHING', function (done) {
     const testId = uuid.v4();
-    fbkt().clog('PING EMITTER', target);
+    fbkt().clog('PING EMITTER', target, true);
 
     target.on('PING_ONE', (e)=>{
       fbkt().clog('EVENT FIRED', e);
