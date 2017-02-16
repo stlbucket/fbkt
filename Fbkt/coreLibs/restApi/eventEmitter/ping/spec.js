@@ -1,6 +1,6 @@
 "use strict";
 const should = require('should');
-const uuid = require('node-uuid')
+const uuid = require('uuid')
 const fbkt = require('../../../../../Fbkt');
 
 const target = require('./index')();

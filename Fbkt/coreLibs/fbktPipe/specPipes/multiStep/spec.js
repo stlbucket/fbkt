@@ -2,7 +2,7 @@
 
 // see sample test output and workspace at bottom of file
 
-var uuid = require('node-uuid');
+var uuid = require('uuid');
 var fbkt = require('../../../../../Fbkt');
 var should = require('should');
 const R = require("ramda");

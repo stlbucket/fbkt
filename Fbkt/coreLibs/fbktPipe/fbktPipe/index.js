@@ -3,7 +3,7 @@ const fbkt    = require('../../../../Fbkt');
 const moment  = require('moment');
 const R       = require('ramda');
 const Promise = require('bluebird');
-const uuid    = require('node-uuid');
+const uuid    = require('uuid');
 const Ajv     = require('ajv');
 
 // see example pipe: scripts/core/fbktPipe/specPipes/multiStep/index.js

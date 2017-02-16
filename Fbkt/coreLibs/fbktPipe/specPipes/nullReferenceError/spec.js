@@ -1,5 +1,5 @@
 "use strict";
-var uuid = require('node-uuid');
+var uuid = require('uuid');
 var fbkt = require('../../../../../Fbkt');
 var should = require('should');
 
