@@ -11,15 +11,49 @@ const Agent = class {
 	constructor(handler) {
 		this.handler = handler;
 	}
+	
+	buildCallInfo(requestInfo){
+    let params;
+    switch(requestInfo.method){
+      case 'GET':
+        params =  requestInfo.params;
+        break;
+      case 'POST':
+        params =  requestInfo.body;
+        break;
+      case 'PUT':
+        params =  Object.assign(requestInfo.params, requestInfo.body);
+        break;
+      case 'PATCH':
+        params =  Object.assign(requestInfo.params, requestInfo.body);
+        break;
+      case 'DELETE':
+        params =  requestInfo.params;
+        break;
+    }
+    fbkt().clog(requestInfo.method, params, true);
+    return {
+      user: requestInfo.user,
+      params: params
+    };
+  }
 
 	handleRequest(requestInfo){
-		const paramsSource = R.contains(requestInfo.method, ['GET', 'DELETE']) ? 'params' : 'body';
+    // fbkt().clog('REQUEST INFO', requestInfo, true);
 
-		const callInfo = {
-			user:   requestInfo.user,
-			params: requestInfo[paramsSource],
-		};
+    // fbkt().clog(requestInfo.method, {
+    //   params: requestInfo.params,
+    //   body: requestInfo.body
+    // }, true);
 
+		// const paramsSource = R.contains(requestInfo.method, ['GET', 'DELETE']) ? 'params' : 'body';
+    //
+		// const callInfo = {
+		// 	user:   requestInfo.user,
+		// 	params: requestInfo[paramsSource],
+		// };
+
+    const callInfo = this.buildCallInfo(requestInfo);
 		const handler = this.handler;
 
 		return Promise.resolve(handler(callInfo))

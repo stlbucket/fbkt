@@ -7,6 +7,7 @@ const configureGetAllEndpoint = require('../configureEndpoint/getAll');
 const configureGetOneEndpoint = require('../configureEndpoint/getOne');
 const configurePostEndpoint = require('../configureEndpoint/post');
 const configurePutEndpoint = require('../configureEndpoint/put');
+const configurePatchEndpoint = require('../configureEndpoint/patch');
 const configureDeleteEndpoint = require('../configureEndpoint/delete');
 
 module.exports = (callInfo)=>{
@@ -55,17 +56,27 @@ module.exports = (callInfo)=>{
 							});
 						}
 
-						if (controller.restEndpoints.put){
-							configurePutEndpoint({
-								params:		{
-									url: 			controller.url,
-									auth:			controller.restEndpoints.put.auth,
-									handler:	controller.restEndpoints.put.handler
-								}
-							});
-						}
+            if (controller.restEndpoints.put) {
+              configurePutEndpoint({
+                params: {
+                  url: controller.url,
+                  auth: controller.restEndpoints.put.auth,
+                  handler: controller.restEndpoints.put.handler
+                }
+              });
+            }
 
-						if (controller.restEndpoints.delete){
+            if (controller.restEndpoints.patch) {
+              configurePatchEndpoint({
+                params: {
+                  url: controller.url,
+                  auth: controller.restEndpoints.patch.auth,
+                  handler: controller.restEndpoints.patch.handler
+                }
+              });
+            }
+
+            if (controller.restEndpoints.delete){
 							configureDeleteEndpoint({
 								params:		{
 									url: 			controller.url,
