@@ -1,7 +1,5 @@
 "use strict";
 const fbkt = require('../../../../../../../../Fbkt');
-const moment = require('moment');
-const R = require('ramda');
 const Promise = require('bluebird');
 
 
@@ -31,7 +29,9 @@ const Agent = class {
         params =  requestInfo.params;
         break;
     }
-    fbkt().clog(requestInfo.method, params, true);
+
+    // fbkt().clog(requestInfo.method, params, true);
+
     return {
       user: requestInfo.user,
       params: params
@@ -39,20 +39,6 @@ const Agent = class {
   }
 
 	handleRequest(requestInfo){
-    // fbkt().clog('REQUEST INFO', requestInfo, true);
-
-    // fbkt().clog(requestInfo.method, {
-    //   params: requestInfo.params,
-    //   body: requestInfo.body
-    // }, true);
-
-		// const paramsSource = R.contains(requestInfo.method, ['GET', 'DELETE']) ? 'params' : 'body';
-    //
-		// const callInfo = {
-		// 	user:   requestInfo.user,
-		// 	params: requestInfo[paramsSource],
-		// };
-
     const callInfo = this.buildCallInfo(requestInfo);
 		const handler = this.handler;
 
