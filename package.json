@@ -7,7 +7,7 @@
   ],
   "main": "index.js",
   "scripts": {
-    "start": "node server",
+    "start": "node server --NODE_ENV dev",
     "dev": "node server --NODE_ENV dev",
     "test": "node server --NODE_ENV test --command runAllUnitTests",
     "testCommand": "node server --NODE_ENV test --command testCommand",

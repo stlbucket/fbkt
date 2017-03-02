@@ -30,7 +30,7 @@ module.exports = (callInfo)=> {
 						}
 					} else {
 						return fbkt().app[callInfo.params.action](
-							`/api${callInfo.params.url}`,
+							`/api/${fbkt().config.apiVersion}${callInfo.params.url}`,
 							createAgent(callInfo)
 						);
 					}

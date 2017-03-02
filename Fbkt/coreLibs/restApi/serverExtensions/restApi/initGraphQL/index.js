@@ -63,9 +63,9 @@ module.exports = ()=> {
             })
           });
 
-          fbkt().app.use('/api/graphql', graphqlHTTP({
+          fbkt().app.use(`/api/${fbkt().config.apiVersion}/graphql`, graphqlHTTP({
             schema: schema,
-            graphiql: true
+            graphiql: fbkt().config.enableGraphIql
           }));
         } else {
           console.log('NO GRAPH QL LIBS')
