@@ -48,7 +48,7 @@ const Agent = class {
 			})
 			.catch((error)=>{
 				console.log('REST ERROR', error);
-				switch(fbkt().config.getConfigValue('restErrorMode')) {
+				switch(fbkt().config.restErrorMode) {
 					case "OPEN":	
 						requestInfo.res.send(error);
 						break;

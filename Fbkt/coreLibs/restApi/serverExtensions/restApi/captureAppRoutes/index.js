@@ -20,7 +20,7 @@ module.exports = (callInfo)=> {
 				}, fbkt().app._router.stack);
 
 				return fbkt().restApiRoutes = R.filter(function(route){
-					const filter = fbkt().getConfigValue('appRouteFilter', 'CAPTURE NO ROUTES');
+					const filter = fbkt().config.appRouteFilter || 'CAPTURE NO ROUTES';
 					return route.url != null && (filter === '*' || route.url.indexOf(filter) > 0);
 				}, routes);
 			}

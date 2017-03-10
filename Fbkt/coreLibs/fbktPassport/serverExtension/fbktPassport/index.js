@@ -12,7 +12,7 @@ var cryptojs = require('crypto-js');
 
 module.exports = function(basicLoginHandler, tokenLoginHandler){
 
-	var testUser = fbkt().getConfigValue('defaultTestUser');
+	var testUser = fbkt().config.defaultTestUser;
 	//console.log('spoofing user:', testUser);
 	
 	var setupBasicStrategy = function(options) {

@@ -23,10 +23,6 @@ const Fbkt = class {
 		this.clog('FBKT CONFIG', this.config, true);
 	}
 
-	getConfigValue(key, defaultValue){
-		return this._config[key] || defaultValue;
-	}
-	
 	runServer(command){
 		return this._coreLibs.fbktServer.runServer(command);
 	}
