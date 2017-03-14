@@ -8,7 +8,10 @@ module.exports = {
 			disabled: false,
 			auth:     'none',
 			handler:  function (callInfo) {
-				return fbkt().config;
+        console.log(R.keys(fbkt()));
+				return {
+          config: fbkt().config
+        };
 			}
 		}
 	}
