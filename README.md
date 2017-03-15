@@ -19,7 +19,7 @@ for a simple fbkt package, use the <a href="https://github.com/stlbucket/fbkt-ex
   - token-based auth
   - this area of the stack should be improved...  <a href="https://github.com/paypal/seifnode">seif?</a>, oauth, etc.
  - graphQl
-  - dynamically compose a graph-ql schema from multiple fbkt-based libs, extending dbAccess.composite structure
+  - dynamically compose a graph-ql schema from multiple fbkt-based libs
 
 ##extension libraries
 - <a href="https://github.com/stlbucket/fbkt-pg">fbkt-pg</a>
