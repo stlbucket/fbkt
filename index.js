@@ -19,3 +19,7 @@ module.exports.queryGraphql = (graphQlQuery) => {
       return result.data;
     });
 };
+
+
+module.exports.clog      = require('./Fbkt/coreLibs/utility/fbktShortcuts/clog');
+module.exports.clogError = require('./Fbkt/coreLibs/utility/fbktShortcuts/clogError');
