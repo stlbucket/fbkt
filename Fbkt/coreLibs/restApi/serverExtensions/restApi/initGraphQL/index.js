@@ -63,6 +63,8 @@ module.exports = ()=> {
             })
           });
 
+          fbkt().graphqlSchema = schema;
+
           fbkt().app.use(`/api/${fbkt().config.apiVersion}/graphql`, graphqlHTTP({
             schema: schema,
             graphiql: fbkt().config.enableGraphIql
