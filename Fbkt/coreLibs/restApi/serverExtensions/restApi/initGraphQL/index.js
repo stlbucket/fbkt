@@ -6,6 +6,8 @@ const gql               = require('graphql');
 const GraphQLSchema     = gql.GraphQLSchema;
 const GraphQLObjectType = gql.GraphQLObjectType;
 
+const graphqlSchema = require('../../../../../graphqlSchema');
+
 module.exports = ()=> {
   return fbkt().FbktPipe({
     name: 'initFbktGraphQl',
@@ -63,7 +65,7 @@ module.exports = ()=> {
             })
           });
 
-          fbkt().graphqlSchema = schema;
+          graphqlSchema(schema);
 
           fbkt().app.use(`/api/${fbkt().config.apiVersion}/graphql`, graphqlHTTP({
             schema: schema,
